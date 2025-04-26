@@ -40,14 +40,6 @@ app.use(vuetify)
 app.use(VueApexCharts)
 app.use(ElementPlus);
 
-// 👇 Insert this before mount
-if (window.location.search.startsWith('?redirect=')) {
-  const url = new URLSearchParams(window.location.search);
-  const redirectTo = url.get('redirect');
-  if (redirectTo) {
-    history.replaceState(null, '', decodeURIComponent(redirectTo));
-  }
-}
 
 app.mount('#app')
 
