@@ -79,8 +79,8 @@ import { ref } from "vue";
 const links = ref([
     { label: "Shipping" },
     { label: "Tracking" },
-    { label: "Business Solutions" },
-    { label: "Support" },
+    { label: "About" },
+   
 ]);
 const menuOpen = ref(false);
 const toggleMenu = () => {
