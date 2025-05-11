@@ -1,16 +1,25 @@
 <template>
   <Header />
   <div class="bg-gray-100">
-    <section
-      class="relative bg-cover bg-center bg-no-repeat h-screen text-white"
-      style="
-        background-image: url('https://images.unsplash.com/photo-1568347877321-f8935c7dc5a3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hpcHBpbmd8ZW58MHx8MHx8fDA%3D');
-      "
-    >
-      <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <p class="text-lg md:text-xl text-white-500 font-semibold mb-4 tracking-wider">
-          Welcome to Upperships
-        </p>
+    <section class="relative h-screen text-white overflow-hidden">
+      <!-- Background image layer -->
+      <div
+        v-for="(img, i) in images"
+        :key="i"
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+        :style="{ backgroundImage: `url(${img})` }"
+        :class="{
+          'opacity-100 z-0': i === currentIndex,
+          'opacity-0 z-0': i !== currentIndex
+        }"
+      ></div>
+
+      <!-- Dark overlay to enhance text visibility -->
+      <div class="absolute inset-0 bg-opacity-50 z-10"></div>
+
+      <!-- Content layer -->
+      <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
+        <p class="text-lg md:text-xl font-semibold mb-4 tracking-wider">Welcome to Upperships</p>
         <h1 class="text-3xl md:text-6xl font-bold leading-tight md:leading-snug mb-6">
           We Provide Best Dispatch <br />
           and Parcel Services
@@ -27,19 +36,22 @@
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-8 p-2">
       <div class="bg-white p-6 rounded-2xl shadow-lg h-[250px] md:col-span-3">
-        <p class="mb-6 text-lg font-semibold">Track your Parcel</p>
+        <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
         <v-text-field
+        @click="goToTrackingPage"
           label="Tracking Number"
           variant="outlined"
           dense
           required
           color="blue"
           class="w-full"
+          v-model="trackingNumber"
         ></v-text-field>
         <div class="mt-4">
-          <v-btn variant="outlined" rounded="pill" color="primary">Track</v-btn>
+          <v-btn @click="goToTrackingPage" variant="outlined" rounded="pill" color="primary">Track</v-btn>
         </div>
       </div>
+
       <!-- Sign up form -->
       <div class="bg-white p-6 rounded-2xl shadow-lg h-[250px] mb-4 md:col-span-2">
         <p class="mb-2 text-sm font-semibold">Set delivery alerts for your parcel</p>
@@ -64,16 +76,16 @@
           <div
             v-for="(feature, index) in features"
             :key="index"
-            class="bg-white shadow-lg rounded-xl p-8 text-center transition hover:shadow-xl"
+            class="bg-white shadow-lg rounded-xl p-4 text-center transition hover:shadow-xl"
           >
-            <div class="flex justify-center mb-4">
+            <div class="flex justify-center mb-2">
               <div
-                class="w-16 h-16 flex items-center justify-center rounded-full border border-red-200 bg-red-50"
+                class="w-8 h-8 flex items-center justify-center rounded-full border border-red-200 bg-red-50"
               >
                 <i :class="feature.icon" class="text-red-500 text-xl"></i>
               </div>
             </div>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+            <h3 class="text-md font-semibold text-gray-800 mb-2">
               {{ feature.title }}
             </h3>
             <p class="text-gray-600 text-sm leading-relaxed">
@@ -117,12 +129,18 @@
         </div>
 
         <!-- Right Image -->
-        <div class="flex justify-center">
-          <img
-            src="https://plus.unsplash.com/premium_photo-1661319057321-a51c7961e993?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGZhc3QlMjBkZWxpdmVyeXxlbnwwfHwwfHx8MA%3D%3D"
-            alt="Fast Delivery"
-            class="max-w-full h-auto object-contain"
-          />
+        <div class="relative w-full h-full max-w-xl mx-auto overflow-hidden mt-10">
+          <div
+            v-for="(image, i) in carouselImages"
+            :key="`carousel-${i}`"
+            class="absolute inset-0 flex justify-center items-center transition-opacity duration-1000"
+            :class="{
+              'opacity-100 z-10': i === currentCarouselIndex,
+              'opacity-0 z-0': i !== currentCarouselIndex
+            }"
+          >
+            <img :src="image" alt="Delivery" class="max-w-full h-auto object-contain" />
+          </div>
         </div>
       </div>
     </section>
@@ -240,13 +258,16 @@
         </v-expansion-panels>
       </div>
 
-      <!-- Truck Image -->
+      <!-- video Image -->
+      <!-- Truck Video -->
       <div class="flex-1">
-        <img
-          src="https://plus.unsplash.com/premium_photo-1664695368767-c42483a0bda1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bG9naXN0aWNzJTIwdHJ1Y2tpbmd8ZW58MHx8MHx8fDA%3D"
-          alt="Delivery Truck"
-          class="w-full max-w-md mx-auto"
-        />
+        <video class="w-full max-w-lg mx-auto" autoplay muted loop playsinline>
+          <source
+            src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/EeN01lAOxijss6byx/videoblocks-e-logistics-international-delivery-concept-world-map-with-logistic-network-distribution-on-background-cargo-ships-delivery-containers-in-port-stock-background-for-concept-of-fast-or-instant_screrixxu__390caab288fbb417c930e9f54343cf18__P360.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </section>
 
@@ -254,7 +275,6 @@
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8">
         <!-- Logo & Description -->
         <div class="space-y-4 md:col-span-1">
-         
           <p class="text-sm text-gray-300">
             At Upperships, we're dedicated to revolutionizing the way you experience convenience and
             efficiency in your everyday life. We understand that your time is precious, and our
@@ -329,7 +349,59 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Header from '@/components/Header.vue'
+
+import { useRouter } from 'vue-router'
+
+const trackingNumber = ref('')
+const router = useRouter()
+
+const goToTrackingPage = () => {
+  if (trackingNumber.value.trim()) {
+    router.push({ name: 'Track', params: { trackingNumber: trackingNumber.value } })
+  }
+}
+
+const images = [
+  'https://images.unsplash.com/photo-1568347877321-f8935c7dc5a3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hpcHBpbmd8ZW58MHx8MHx8fDA%3D',
+  'https://plus.unsplash.com/premium_photo-1683120796013-f2f18451a907?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c2hpcHBpbmclMjBsb2dpc3RpY3N8ZW58MHx8MHx8fDA%3D',
+  'https://images.unsplash.com/photo-1725449264087-28926bc1a610?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hpcHBpbmclMjBsb2dpc3RpY3N8ZW58MHx8MHx8fDA%3D',
+  'https://images.unsplash.com/photo-1644134913825-5ff0ff4e731c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNoaXBwaW5nJTIwbG9naXN0aWNzfGVufDB8fDB8fHww',
+  'https://images.unsplash.com/photo-1634638022845-1ab614a94128?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHNoaXBwaW5nJTIwbG9naXN0aWNzfGVufDB8fDB8fHww',
+  'https://images.pexels.com/photos/3856433/pexels-photo-3856433.jpeg?auto=compress&cs=tinysrgb&w=600'
+]
+
+const currentIndex = ref(0)
+let intervalId = null
+let carouselIntervalId = null
+
+
+// Carousel slideshow
+const carouselImages = [
+  'https://images.pexels.com/photos/6169056/pexels-photo-6169056.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'https://images.pexels.com/photos/4481530/pexels-photo-4481530.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'https://images.pexels.com/photos/6170098/pexels-photo-6170098.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'https://images.pexels.com/photos/5025512/pexels-photo-5025512.jpeg?auto=compress&cs=tinysrgb&w=600',
+
+]
+const currentCarouselIndex = ref(0)
+
+onMounted(() => {
+  intervalId = setInterval(() => {
+    currentIndex.value = (currentIndex.value + 1) % images.length
+  }, 4000) // change image every 5 seconds
+  carouselIntervalId = setInterval(() => {
+    currentCarouselIndex.value = (currentCarouselIndex.value + 1) % carouselImages.length
+  }, 4000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+  clearInterval(carouselIntervalId)
+})
+
 const features = [
   {
     title: 'Real-Time Tracking',

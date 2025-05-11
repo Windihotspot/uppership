@@ -9,6 +9,7 @@ import Analysis from '@/views/Analysis.vue'
 import ResetPassword from '@/views/ResetPassword.vue'
 import HomeView from '@/views/HomePage.vue'
 import HomePage from '@/views/HomePage.vue'
+import TrackingPage from '@/views/TrackingPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,7 +60,9 @@ const router = createRouter({
       name: 'StatementAnalysis',
       component: () => import('@/views/StatementAnalysis.vue'),
       props: true
-    }
+    },
+    
+    { path: '/track/:trackingNumber', name: 'Track', component: TrackingPage }
     
   ]
 })

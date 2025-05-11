@@ -82,9 +82,10 @@
                 class="flex flex-col items-center justify-center text-center"
               >
                 <v-icon size="64" color="blue">mdi-account-multiple-outline</v-icon>
-                <p class="text-gray-600 mt-4 text-lg">No users found</p>
-                <p class="text-gray-500 mb-4">Start by inviting your first team member.</p>
-                <v-btn color="blue" @click="openModal">Invite User</v-btn>
+                <img src="" alt="">
+                <p class="font-semibold mt-4 text-lg">No users found</p>
+                <p class="font-light mb-4">Start by inviting your first team member.</p>
+                
               </div>
 
               <div v-else class="overflow-x-auto bg-white shadow-md rounded-md mt-6">
