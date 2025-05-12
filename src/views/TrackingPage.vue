@@ -1,4 +1,6 @@
 <script setup>
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/supabase'
@@ -7,25 +9,38 @@ import Timeline from '@/components/Timeline.vue'
 const route = useRoute()
 const trackingNumber = route.params.trackingNumber
 const events = ref([])
+const loading = ref(true)
+
 
 onMounted(async () => {
+  loading.value = true
   const { data, error } = await supabase
     .from('trackings')
     .select('*')
     .eq('tracking_number', trackingNumber)
-    .order('timestamp', { ascending: true })
+    .order('created_at', { ascending: true })
 
-  if (!error) {
-    events.value = data
+    if (error) {
+    console.error('❌ Supabase fetch failed:', error)
   } else {
-    console.error('Tracking fetch failed:', error)
+    console.log('✅ Supabase fetch success:', data)
+    events.value = data
   }
+  loading.value = false
 })
 </script>
 
 <template>
+  <Header/>
   <div class="p-6">
     <h1 class="text-2xl font-semibold mb-4">Tracking Info for {{ trackingNumber }}</h1>
-    <Timeline :events="events" />
+
+    <v-container class="d-flex justify-center" v-if="loading">
+      <v-progress-circular indeterminate color="primary" />
+    </v-container>
+
+    <Timeline v-else :events="events" />
   </div>
+  <Footer/>
 </template>
+

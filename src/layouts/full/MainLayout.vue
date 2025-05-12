@@ -3,13 +3,10 @@ import { ref, onMounted } from 'vue';
 import SidebarView from './sidebar/SidebarView.vue';
 import HeaderView from './header/HeaderView.vue';
 
-const drawer = ref();
-const innerW = window.innerWidth;
+
 
 onMounted(() => {
-  if (innerW < 950) {
-    drawer.value = !drawer.value;
-  }
+ 
 });
 </script>
 
@@ -24,7 +21,7 @@ onMounted(() => {
       elevation="10"
       app
       :temporary="$vuetify.display.mdAndDown"
-      v-model="drawer"
+     
       expand-on-hover
       class="side-bar"
     >

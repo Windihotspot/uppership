@@ -290,7 +290,7 @@
         </div>
 
         <!-- Company -->
-        <div>
+        <!-- <div>
           <h3 class="text-lg font-semibold mb-4">Company</h3>
           <ul class="space-y-2 text-sm text-gray-300">
             <li><a href="#" class="hover:text-white">→ Home</a></li>
@@ -298,7 +298,7 @@
             <li><a href="#" class="hover:text-white">→ Team</a></li>
             <li><a href="#" class="hover:text-white">→ Service</a></li>
           </ul>
-        </div>
+        </div> -->
 
         <!-- Useful Link 1 -->
         <div>

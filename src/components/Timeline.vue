@@ -10,7 +10,7 @@
     </div>
 
     <!-- Timeline Events -->
-    <v-timeline density="compact" side="end" truncate-line>
+    <v-timeline density="compact" side="end">
       <v-slide-x-transition group>
         <v-timeline-item
           v-for="event in reversedEvents"
@@ -22,7 +22,7 @@
             <div>
               <p class="font-bold">{{ event.status }}</p>
               <p>{{ event.location }}</p>
-              <p>{{ formatDate(event.timestamp) }}</p>
+              <p>{{ (event.created_at) }}</p>
             </div>
           </div>
         </v-timeline-item>

@@ -10,6 +10,7 @@ import ResetPassword from '@/views/ResetPassword.vue'
 import HomeView from '@/views/HomePage.vue'
 import HomePage from '@/views/HomePage.vue'
 import TrackingPage from '@/views/TrackingPage.vue'
+import AddTrack from '@/views/AddTrack.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,7 +63,13 @@ const router = createRouter({
       props: true
     },
     
-    { path: '/track/:trackingNumber', name: 'Track', component: TrackingPage }
+    { path: '/track/:trackingNumber', name: 'Track', component: TrackingPage },
+    {
+      path: '/addshipment',
+      name: 'AddTrack',
+      component: AddTrack,
+      props: true
+    }
     
   ]
 })
