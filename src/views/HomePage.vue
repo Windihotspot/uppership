@@ -38,7 +38,7 @@
       <div class="bg-white p-6 rounded-2xl shadow-lg h-[250px] md:col-span-3">
         <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
         <v-text-field
-        @click="goToTrackingPage"
+          @click="goToTrackingPage"
           label="Tracking Number"
           variant="outlined"
           dense
@@ -48,7 +48,9 @@
           v-model="trackingNumber"
         ></v-text-field>
         <div class="mt-4">
-          <v-btn @click="goToTrackingPage" variant="outlined" rounded="pill" color="primary">Track</v-btn>
+          <v-btn @click="goToTrackingPage" variant="outlined" rounded="pill" color="primary"
+            >Track</v-btn
+          >
         </div>
       </div>
 
@@ -80,7 +82,7 @@
           >
             <div class="flex justify-center mb-2">
               <div
-                class="w-8 h-8 flex items-center justify-center rounded-full border border-red-200 bg-red-50"
+                class="w-8 h-8 flex items-center justify-center "
               >
                 <i :class="feature.icon" class="text-red-500 text-xl"></i>
               </div>
@@ -96,12 +98,12 @@
       </div>
     </section>
 
-    <section class="bg-white py-16 p-6 rounded m-2">
+    <section class="bg-white py-16 p-6 rounded">
       <div class="max-w-7xl mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-12 items-center">
         <!-- Left Content -->
         <div>
           <div
-            class="inline-block bg-red-600 text-white text-sm font-semibold px-4 py-1 rounded-tr-lg rounded-bl-lg mb-4"
+            class="inline-block bg-[#FFC400] text-white text-sm font-semibold px-4 py-1 rounded-tr-lg rounded-bl-lg mb-4"
           >
             Why We Are The Best
           </div>
@@ -116,7 +118,7 @@
           <div class="space-y-6">
             <div v-for="(service, index) in services" :key="index" class="flex items-start gap-4">
               <div
-                class="w-12 h-12 flex items-center justify-center rounded-full border border-red-200 bg-red-50"
+                class="w-12 h-12 flex items-center justify-center "
               >
                 <i :class="service.icon" class="text-red-600 text-lg"></i>
               </div>
@@ -129,18 +131,14 @@
         </div>
 
         <!-- Right Image -->
-        <div class="relative w-full h-full max-w-xl mx-auto overflow-hidden mt-10">
-          <div
-            v-for="(image, i) in carouselImages"
-            :key="`carousel-${i}`"
-            class="absolute inset-0 flex justify-center items-center transition-opacity duration-1000"
-            :class="{
-              'opacity-100 z-10': i === currentCarouselIndex,
-              'opacity-0 z-0': i !== currentCarouselIndex
-            }"
-          >
-            <img :src="image" alt="Delivery" class="max-w-full h-auto object-contain" />
-          </div>
+        <div class="flex-1">
+          <video class="w-full max-w-lg mx-auto" autoplay muted loop playsinline>
+            <source
+              src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/EeN01lAOxijss6byx/videoblocks-e-logistics-international-delivery-concept-world-map-with-logistic-network-distribution-on-background-cargo-ships-delivery-containers-in-port-stock-background-for-concept-of-fast-or-instant_screrixxu__390caab288fbb417c930e9f54343cf18__P360.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>
@@ -232,7 +230,7 @@
     <section class="flex flex-col lg:flex-row items-center gap-8 px-6 py-12 bg-white rounded m-2">
       <!-- Left Text Content -->
       <div class="flex-1 max-w-xl space-y-6">
-        <div class="inline-block bg-red-600 text-white px-4 py-1 rounded-t-md rounded-bl-md shadow">
+        <div class="inline-block bg-[#FFC400] text-white px-4 py-1 rounded-t-md rounded-bl-md shadow">
           What We Offer
         </div>
         <h2 class="text-4xl font-bold text-gray-900">Explore Our Services and Solutions</h2>
@@ -271,11 +269,11 @@
       </div>
     </section>
 
-    <footer class="bg-[#0F1B2B] text-white py-12">
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8">
+    <footer class="bg-white rounded text-black py-12 m-4">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8 m-2">
         <!-- Logo & Description -->
         <div class="space-y-4 md:col-span-1">
-          <p class="text-sm text-gray-300">
+          <p class="text-sm ">
             At Upperships, we're dedicated to revolutionizing the way you experience convenience and
             efficiency in your everyday life. We understand that your time is precious, and our
             mission is to make it count.
@@ -302,8 +300,8 @@
 
         <!-- Useful Link 1 -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Useful Link</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li><a href="#" class="hover:text-white">→ Order Tracking</a></li>
             <li><a href="#" class="hover:text-white">→ Contact</a></li>
             <li><a href="#" class="hover:text-white">→ Blog</a></li>
@@ -313,8 +311,8 @@
 
         <!-- Useful Link 2 -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Useful Link</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li><a href="#" class="hover:text-white">→ Terms of Service</a></li>
             <li><a href="#" class="hover:text-white">→ Refund Policy</a></li>
             <li><a href="#" class="hover:text-white">→ Privacy and Policy</a></li>
@@ -324,8 +322,8 @@
 
         <!-- Contact Info -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Get In Touch</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li class="flex items-start">
               <i class="fas fa-map-marker-alt w-5 pt-1"></i
               ><span
@@ -376,15 +374,13 @@ const currentIndex = ref(0)
 let intervalId = null
 let carouselIntervalId = null
 
-
 // Carousel slideshow
 const carouselImages = [
   'https://images.pexels.com/photos/6169056/pexels-photo-6169056.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/4481530/pexels-photo-4481530.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/6170098/pexels-photo-6170098.jpeg?auto=compress&cs=tinysrgb&w=600',
-  'https://images.pexels.com/photos/5025512/pexels-photo-5025512.jpeg?auto=compress&cs=tinysrgb&w=600',
-
+  'https://images.pexels.com/photos/5025512/pexels-photo-5025512.jpeg?auto=compress&cs=tinysrgb&w=600'
 ]
 const currentCarouselIndex = ref(0)
 

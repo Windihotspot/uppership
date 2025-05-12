@@ -3,11 +3,11 @@
 </script>
 
 <template>
-   <footer class="bg-[#0F1B2B] text-white py-12">
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8">
+   <footer class="bg-white rounded text-black py-12 m-4">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8 m-2">
         <!-- Logo & Description -->
         <div class="space-y-4 md:col-span-1">
-          <p class="text-sm text-gray-300">
+          <p class="text-sm ">
             At Upperships, we're dedicated to revolutionizing the way you experience convenience and
             efficiency in your everyday life. We understand that your time is precious, and our
             mission is to make it count.
@@ -34,8 +34,8 @@
 
         <!-- Useful Link 1 -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Useful Link</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li><a href="#" class="hover:text-white">→ Order Tracking</a></li>
             <li><a href="#" class="hover:text-white">→ Contact</a></li>
             <li><a href="#" class="hover:text-white">→ Blog</a></li>
@@ -45,8 +45,8 @@
 
         <!-- Useful Link 2 -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Useful Link</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li><a href="#" class="hover:text-white">→ Terms of Service</a></li>
             <li><a href="#" class="hover:text-white">→ Refund Policy</a></li>
             <li><a href="#" class="hover:text-white">→ Privacy and Policy</a></li>
@@ -56,8 +56,8 @@
 
         <!-- Contact Info -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Get In Touch</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
+          
+          <ul class="space-y-2 text-sm ">
             <li class="flex items-start">
               <i class="fas fa-map-marker-alt w-5 pt-1"></i
               ><span

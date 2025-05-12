@@ -25,7 +25,7 @@
       </v-btn>
 
       <!-- Mobile Menu Button -->
-      <button @click="toggleMenu" class="lg:hidden p-2 text-gray-700">
+      <button @click="toggleMenu" class="lg:hidden p-2 ">
         <i class="fas fa-bars text-xl"></i>
       </button>
     </nav>

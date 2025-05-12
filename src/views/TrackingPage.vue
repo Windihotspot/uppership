@@ -5,6 +5,8 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/supabase'
 import Timeline from '@/components/Timeline.vue'
+import moment from 'moment'
+
 
 const route = useRoute()
 const trackingNumber = route.params.trackingNumber
@@ -19,6 +21,11 @@ onMounted(async () => {
     .select('*')
     .eq('tracking_number', trackingNumber)
     .order('created_at', { ascending: true })
+     // Format the date using moment
+     events.value = data.map(event => ({
+      ...event,
+      formatted_date: moment(event.created_at).format('MMMM Do YYYY, ')
+    }))
 
     if (error) {
     console.error('❌ Supabase fetch failed:', error)
@@ -26,6 +33,7 @@ onMounted(async () => {
     console.log('✅ Supabase fetch success:', data)
     events.value = data
   }
+   
   loading.value = false
 })
 </script>
