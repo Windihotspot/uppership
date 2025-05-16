@@ -398,7 +398,7 @@ const inviteUser = async () => {
     )
 
     console.log(response)
-
+      fetchTeam()
     ElNotification({
       title: 'Success',
       message: 'User was successfully invited.',

@@ -1,39 +1,38 @@
 <template>
-  <v-container style="max-width: 600px">
+  <div class="max-w-xl mx-auto p-4">
     <!-- Shipment Info -->
-    <div class="border-b mb-6">
-      <p class="m-2">Your shipment <span class="font-semibold">{{ trackingNumber }}</span></p>
-      <p class="font-bold m-2">Estimated delivery</p>
-      <p class="font-bold text-blue-600 m-2">
-        The delivery date will be provided as soon as possible
-      </p>
+    <div class="border-b mb-6 pb-4">
+      <p class="mb-1">Your shipment <span class="font-semibold">{{ trackingNumber }}</span></p>
+      <p class="font-bold mb-1">Estimated delivery</p>
+      <p class="font-bold text-blue-600">The delivery date will be provided as soon as possible</p>
     </div>
 
     <!-- Timeline Events -->
-    <v-timeline density="compact" side="end">
-      <v-slide-x-transition group>
-        <v-timeline-item
-          v-for="event in reversedEvents"
-          :key="event.id"
-          :dot-color="getDotColor(event.status)"
-          size="small"
-        >
-          <div class="d-flex justify-space-between flex-grow-1">
-            <div>
-              <p class="font-bold">{{ event.status }}</p>
-              <p>{{ event.location }}</p>
-              <p>{{ (event.created_at) }}</p>
-            </div>
-          </div>
-        </v-timeline-item>
-      </v-slide-x-transition>
-    </v-timeline>
-  </v-container>
+    <div class="relative border-l-2 border-gray-200 space-y-8">
+      <div
+        v-for="event in reversedEvents"
+        :key="event.id"
+        class="relative pl-6"
+      >
+        <!-- Dot -->
+        <span
+          class="absolute left-[-0.45rem] top-1 w-3 h-3 rounded-full"
+          :class="getDotColorClass(event.status)"
+        ></span>
+
+        <!-- Content -->
+        <div>
+          <p class="font-semibold text-gray-800">{{ event.status }}</p>
+          <p class="text-sm text-gray-600">{{ event.location }}</p>
+          <p class="text-xs text-gray-400">{{ event.created_at }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-
 
 const props = defineProps({
   events: {
@@ -48,26 +47,17 @@ const props = defineProps({
 
 const reversedEvents = computed(() => [...props.events].reverse())
 
-
-
-const getDotColor = (status) => {
+const getDotColorClass = (status) => {
   switch (status?.toLowerCase()) {
     case 'on the way':
     case 'out for delivery':
     case 'delivered':
-      return 'green'
+      return 'bg-green-500'
     case 'parcel on hold':
     case 'delayed':
-      return 'red'
+      return 'bg-red-500'
     default:
-      return 'blue-grey'
+      return 'bg-gray-400'
   }
 }
 </script>
-
-<style scoped>
-.v-timeline-item:first-of-type::before,
-.v-timeline-item:last-of-type::after {
-  display: none;
-}
-</style>

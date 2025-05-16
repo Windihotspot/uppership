@@ -7,50 +7,68 @@
       </a>
 
       <!-- Desktop Links -->
-      <div class="hidden lg:flex space-x-6">
-        <a
-          v-for="(link, index) in links"
-          :key="index"
-          :href="link.to"
-          class="hover:text-secondary font-semibold transition-colors"
-        >
-          {{ link.label }}
-        </a>
+      <!-- Desktop Nav + Login -->
+      <div class="hidden lg:flex items-center space-x-4">
+        <!-- Desktop Links -->
+        <div class="flex space-x-6">
+          <a
+            v-for="(link, index) in links"
+            :key="index"
+            :href="link.to"
+            class="hover:text-secondary font-semibold transition-colors"
+          >
+            {{ link.label }}
+          </a>
+        </div>
+
+        <!-- Login Button -->
+        <v-btn color="#FFC400" class="btn p-2" rounded="pill">
+          Log in
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </v-btn>
       </div>
 
-      <!-- Login Button -->
-      <v-btn color="#FFC400" class="mx-2 btn p-2" rounded="pill">
-        Log in
-        <i class="fa-solid fa-arrow-right ml-2"></i>
-      </v-btn>
-
       <!-- Mobile Menu Button -->
-      <button @click="toggleMenu" class="lg:hidden p-2 ">
-        <i class="fas fa-bars text-xl"></i>
+      <!-- Mobile Menu Button -->
+      <button @click="toggleMenu" class="lg:hidden p-2 focus:outline-none">
+        <i
+          :class="[
+            'text-xl transition-transform duration-300',
+            menuOpen ? 'fas fa-times' : 'fas fa-bars'
+          ]"
+        ></i>
       </button>
     </nav>
 
     <!-- Mobile Dropdown -->
-    <v-expand-transition>
-      <div
-        v-show="menuOpen"
-        class="lg:hidden bg-white text-black border-t border-gray-200 px-6 py-4"
+    <!-- Mobile Dropdown -->
+<v-expand-transition>
+  <div
+    v-show="menuOpen"
+    class="lg:hidden bg-white text-black border-t border-gray-200 px-6 py-4"
+  >
+    <v-list dense>
+      <v-list-item
+        v-for="(link, index) in links"
+        :key="index"
+        :href="link.to"
+        class="hover:text-secondary transition-colors"
       >
-        <v-list dense>
-          <v-list-item
-            v-for="(link, index) in links"
-            :key="index"
-            :href="link.to"
-            class="hover:text-secondary transition-colors"
-          >
-            <v-list-item-title>{{ link.label }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-        <v-btn href="/register" color="secondary" class="mt-4 w-full" rounded="pill">
-          Get Started
-        </v-btn>
-      </div>
-    </v-expand-transition>
+        <v-list-item-title>{{ link.label }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+
+    <v-btn color="#FFC400" class="mt-4 w-full" rounded="pill">
+      Log in
+      <i class="fa-solid fa-arrow-right ml-2"></i>
+    </v-btn>
+
+    <v-btn href="/register" color="secondary" class="mt-2 w-full" rounded="pill">
+      Get Started
+    </v-btn>
+  </div>
+</v-expand-transition>
+
   </header>
 </template>
 
