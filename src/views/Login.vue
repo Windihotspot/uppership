@@ -90,15 +90,6 @@ onUnmounted(() => {
 <template>
  <div class="flex flex-col md:flex-row h-auto md:h-screen bg-white">
   <!-- Logo -->
- 
-  <!-- Image Section -->
-  <div class="w-full p-4 sm:w-1/2 md:w-1/2 h-64 md:h-full relative">
-    <img
-      src="/src/assets/image.jpg"
-      alt="Onboarding Image"
-      class="w-full sm:h-96 md:h-full object-cover rounded-b-lg md:rounded-none md:rounded-l-lg shadow-2xl"
-    />
-  </div>
 
   <!-- Login Form Section -->
   <div class="w-full md:w-1/2 pt-8 flex items-center justify-center bg-white h-full">
