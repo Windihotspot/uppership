@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 const authStore = useAuthStore()
 import { useRouter } from 'vue-router'
 const router = useRouter()
+import Header from '@/components/Header.vue'
 
 const loginForm = ref({
   email: '',
@@ -34,7 +35,7 @@ const submitForm = async () => {
 
     console.log('Login successful:', response.data)
     // Extract data from the response properly
-    const { token, user, verification_status } = response.data.data // data is the root response object
+    const { token, user, verification_status } = response.data.data
 
     localStorage.setItem('data', JSON.stringify(response.data.data))
 
@@ -57,123 +58,91 @@ const submitForm = async () => {
     loginForm.value.processing = false
   }
 }
-
-const images = [
-  'https://images.unsplash.com/photo-1705948354275-d55101017fb6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNyZWRpdCUyMHNlYXJjaHxlbnwwfHwwfHx8MA%3D%3D',
-  'https://images.unsplash.com/photo-1654263937085-48fb17a63d66?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNyZWRpdCUyMHNlYXJjaHxlbnwwfHwwfHx8MA%3D%3D',
-  'https://plus.unsplash.com/premium_photo-1702634273888-1999beb6120b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bmlnZXJpYW4lMjBidXNpbmVzcyUyMHdvbWFuJTIwbWFya2V0fGVufDB8fDB8fHww'
-]
-
-const currentImage = ref(images[0])
-const showImage = ref(true)
-let intervalId
-
-const changeImage = () => {
-  showImage.value = false // Start fade-out transition
-
-  setTimeout(() => {
-    const currentIndex = images.indexOf(currentImage.value)
-    currentImage.value = images[(currentIndex + 1) % images.length]
-    showImage.value = true // Start fade-in transition
-  }, 500) // Match with CSS transition duration
-}
-
-onMounted(() => {
-  intervalId = setInterval(changeImage, 6000)
-})
-
-onUnmounted(() => {
-  clearInterval(intervalId)
-})
 </script>
 
 <template>
- <div class="flex flex-col md:flex-row h-auto md:h-screen bg-white">
-  <!-- Logo -->
-
-  <!-- Login Form Section -->
-  <div class="w-full md:w-1/2 pt-8 flex items-center justify-center bg-white h-full">
-
-    <div class="max-w-md w-full px-4 sm:px-6 lg:px-8 py-8 md:py-0">
-      <!-- Heading -->
-      <h1 class="text-3xl font-bold text-gray-800 text-center">Welcome back!</h1>
-      <p class="text-gray-600 mt-2 text-center">
-        Provide your login credentials to access your account
-      </p>
-
-      <!-- Login Form -->
-      <form @submit.prevent="submitForm" class="mt-6 space-y-4">
-        <!-- Email Error -->
-        <p v-if="loginForm.errors.email" class="text-red-500 text-sm">
-          {{ loginForm.errors.email }}
+  <Header/>
+  <div class="h-auto h-screen bg-white">
+    <!-- Login Form Section -->
+    <div class="w-full pt-8 flex items-center justify-center bg-white h-full">
+      <div class="max-w-md w-full px-4 sm:px-6 lg:px-8 py-8 md:py-0">
+        <!-- Heading -->
+        <h1 class="text-3xl font-bold text-gray-800 text-center">Welcome back!</h1>
+        <p class="text-gray-600 mt-2 text-center">
+          Provide your login credentials to access your account
         </p>
 
-        <!-- Email Input -->
-        <v-text-field
-          type="email"
-          label="Email address"
-          v-model="loginForm.email"
-          variant="outlined"
-          color="blue"
-        />
+        <!-- Login Form -->
+        <form @submit.prevent="submitForm" class="mt-6 space-y-4">
+          <!-- Email Error -->
+          <p v-if="loginForm.errors.email" class="text-red-500 text-sm">
+            {{ loginForm.errors.email }}
+          </p>
 
-        <!-- Password Error -->
-        <p v-if="loginForm.errors.password" class="text-red-500 text-sm">
-          {{ loginForm.errors.password }}
-        </p>
+          <!-- Email Input -->
+          <v-text-field
+            type="email"
+            label="Email address"
+            v-model="loginForm.email"
+            variant="outlined"
+            color="blue"
+          />
 
-        <!-- Password Input -->
-        <v-text-field
-          :type="showPassword ? 'text' : 'password'"
-          v-model="loginForm.password"
-          label="Password"
-          variant="outlined"
-          color="blue"
-        >
-          <template #append-inner>
-            <i
-              :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
-              @click="togglePasswordVisibility"
-              class="cursor-pointer text-black"
-            ></i>
-          </template>
-        </v-text-field>
+          <!-- Password Error -->
+          <p v-if="loginForm.errors.password" class="text-red-500 text-sm">
+            {{ loginForm.errors.password }}
+          </p>
 
-        <!-- Remember me + Reset -->
-        <div class="flex items-center justify-between">
-          <label class="flex items-center space-x-2">
-            <el-checkbox v-model="loginForm.remember" size="large" />
-            <span class="text-sm text-gray-700">Remember me</span>
-          </label>
+          <!-- Password Input -->
+          <v-text-field
+            :type="showPassword ? 'text' : 'password'"
+            v-model="loginForm.password"
+            label="Password"
+            variant="outlined"
+            color="blue"
+          >
+            <template #append-inner>
+              <i
+                :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
+                @click="togglePasswordVisibility"
+                class="cursor-pointer text-black"
+              ></i>
+            </template>
+          </v-text-field>
 
-          <RouterLink to="/resetpassword">
-            <v-btn
-              no-uppercase
-              variant="text"
-              size="small"
-              color="#1f5aa3"
-              class="normal-case text-none"
-            >
-              Reset password
-            </v-btn>
-          </RouterLink>
-        </div>
+          <!-- Remember me + Reset -->
+          <div class="flex items-center justify-between">
+            <label class="flex items-center space-x-2">
+              <el-checkbox v-model="loginForm.remember" size="large" />
+              <span class="text-sm text-gray-700">Remember me</span>
+            </label>
 
-        <!-- Submit Button -->
-        <v-btn
-          type="submit"
-          :loading="loginForm.processing"
-          :disabled="loginForm.processing"
-          class="w-full text-white font-semibold text-sm custom-btn"
-          height="40"
-        >
-          {{ loginForm.processing ? 'Signing in...' : 'Sign in' }}
-        </v-btn>
-      </form>
+            <RouterLink to="">
+              <v-btn
+                no-uppercase
+                variant="text"
+                size="small"
+                color="#1f5aa3"
+                class="normal-case text-none"
+              >
+                Forgot password?
+              </v-btn>
+            </RouterLink>
+          </div>
+
+          <!-- Submit Button -->
+          <v-btn
+            type="submit"
+            :loading="loginForm.processing"
+            class="w-full text-white font-semibold text-sm custom-btn"
+            height="40"
+          >
+            {{ loginForm.processing ? 'Signing in...' : 'Sign in' }}
+          </v-btn>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <style scoped>
@@ -211,7 +180,7 @@ onUnmounted(() => {
 .custom-btn {
   background-color: #1f5aa3;
 }
-.v-btn{
+.v-btn {
   text-transform: none;
 }
 </style>

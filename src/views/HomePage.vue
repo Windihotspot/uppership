@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div class="bg-gray-100">
-    <section class="relative h-screen text-white overflow-hidden">
+    <section class="relative h-96 mb-4 text-white overflow-hidden">
       <!-- Background image layer -->
       <div
         v-for="(img, i) in images"
@@ -15,7 +15,7 @@
       ></div>
 
       <!-- Dark overlay to enhance text visibility -->
-      <div class="absolute inset-0 bg-opacity-50 z-10"></div>
+       <div class="absolute inset-0 bg-blue-300 bg-opacity-60 z-10"></div>
 
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
@@ -24,13 +24,7 @@
           We Provide Best Dispatch <br />
           and Parcel Services
         </h1>
-        <div class="flex space-x-4">
-          <button
-            class="bg-[#FFC400] hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition"
-          >
-            Get Quotes
-          </button>
-        </div>
+        
       </div>
     </section>
 
@@ -81,9 +75,7 @@
             class="bg-white shadow-lg rounded-xl p-4 text-center transition hover:shadow-xl"
           >
             <div class="flex justify-center mb-2">
-              <div
-                class="w-8 h-8 flex items-center justify-center "
-              >
+              <div class="w-8 h-8 flex items-center justify-center">
                 <i :class="feature.icon" class="text-red-500 text-xl"></i>
               </div>
             </div>
@@ -117,9 +109,7 @@
           <!-- Feature List -->
           <div class="space-y-6">
             <div v-for="(service, index) in services" :key="index" class="flex items-start gap-4">
-              <div
-                class="w-12 h-12 flex items-center justify-center "
-              >
+              <div class="w-12 h-12 flex items-center justify-center">
                 <i :class="service.icon" class="text-red-600 text-lg"></i>
               </div>
               <div>
@@ -230,7 +220,9 @@
     <section class="flex flex-col lg:flex-row items-center gap-8 px-6 py-12 bg-white rounded m-2">
       <!-- Left Text Content -->
       <div class="flex-1 max-w-xl space-y-6">
-        <div class="inline-block bg-[#FFC400] text-white px-4 py-1 rounded-t-md rounded-bl-md shadow">
+        <div
+          class="inline-block bg-[#FFC400] text-white px-4 py-1 rounded-t-md rounded-bl-md shadow"
+        >
           What We Offer
         </div>
         <h2 class="text-4xl font-bold text-gray-900">Explore Our Services and Solutions</h2>
@@ -268,8 +260,6 @@
         </video>
       </div>
     </section>
-
-  
   </div>
 </template>
 

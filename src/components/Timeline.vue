@@ -18,20 +18,21 @@
       <div v-if="lastEvent" class="border-t pt-3">
         <div class="text-xs text-gray-500">Delivered To</div>
         <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.location }}</div>
-        <v-btn variant="plain" class="text-blue-600 text-sm font-medium hover:underline px-0 custom-btn">
-          Proof of Delivery
-          <i class="fas fa-arrow-right ml-1 text-xs"></i>
-        </v-btn>
+        <a href="" class="text-blue-600 mb-6">
+          Proof of delivery
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </a>
+       
       </div>
 
       <!-- Element Plus Timeline -->
-      <el-timeline>
+       <div class="mt-4">
+        <el-timeline>
         <el-timeline-item
           v-for="event in reversedEvents"
           :key="event.id"
           :timestamp="event.formattedDate"
           type="success"
-          
           :color="'#22c55e'"
           :icon="getStatusIconComponent(event.status)"
           size="large"
@@ -43,9 +44,11 @@
           </div>
         </el-timeline-item>
       </el-timeline>
+       </div>
+      
     </div>
 
-     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
+    <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
       <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
       <v-text-field
         label="Tracking Number"
@@ -54,7 +57,6 @@
         required
         color="blue"
         class="w-full"
-        
       ></v-text-field>
       <div class="mt-4">
         <v-btn variant="outlined" rounded="pill" color="primary">Track</v-btn>
@@ -145,7 +147,7 @@ const getStatusIconClass = (status) => {
 </script>
 
 <style scoped>
-  .custom-btn{
-    text-transform: none;
-  }
+.custom-btn {
+  text-transform: none;
+}
 </style>

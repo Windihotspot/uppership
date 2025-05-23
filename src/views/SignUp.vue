@@ -1,320 +1,337 @@
-<script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-import { useAuthStore } from '@/stores/auth'
-const authStore = useAuthStore()
-
-const steps = [
-  {
-    title: 'Business details',
-    description: 'Provide your business information',
-    icon: 'fa-user'
-  },
-  {
-    title: 'Verify your email',
-    description: 'Enter your verification code',
-    icon: 'fa-envelope'
-  }
-]
-
-const currentStep = ref(0)
-
-const showPassword = ref(false)
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value
-}
-
-const registerForm = ref({
-  business_name: '',
-  business_email: '',
-  phone_number: '',
-  business_type: '',
-  business_reg_number: '',
-  password: ''
-})
-
-// Handle Registration Submission
-const submitForm = async () => {
-  registerForm.value.processing = true
-  registerForm.value.errors = {} // Clear previous errors
-  console.log('Registration request:', registerForm.value)
-
-  try {
-    const response = await axios.post('https://dev02201.getjupita.com/api/register-business', {
-      business_name: registerForm.value.business_name,
-      business_email: registerForm.value.business_email,
-      phone_number: registerForm.value.phone_number,
-      business_type: registerForm.value.business_type,
-      business_reg_number: registerForm.value.business_reg_number,
-      password: registerForm.value.password
-    })
-
-    console.log('Registration successful:', response.data)
-    // Store authentication data in Pinia
-    authStore.setAuthData(response.data.data)
-    // Move to the next step
-    currentStep.value += 1
-
-    // Show the step for 3 seconds, then navigate
-    setTimeout(() => {
-      router.push('/verified')
-    }, 3000)
-
-    // Handle success (e.g., store token, redirect user)
-  } catch (error) {
-    console.log('Registration failed:', error.response?.data)
-
-    // Handle errors
-    if (error.response?.data?.errors) {
-      registerForm.value.errors = error.response.data.errors
-    } else {
-    }
-  } finally {
-    registerForm.value.processing = false
-  }
-}
-
-const showDialog = ref(false)
-const passwordMessage = ref('')
-
-// Compute password strength
-const strength = computed(() => {
-  const password = registerForm.value.password
-  let score = 0
-  // Check for uppercase letter
-  if (/[A-Z]/.test(password)) score++
-  // Check for lowercase letter
-  if (/[a-z]/.test(password)) score++
-  // Check for number
-  if (/[0-9]/.test(password)) score++
-  // Check for special characters (including a wider range)
-  if (/[!@#$%^&*(),.?":{}|<>[\]\\/-_+=`~;']/.test(password)) score++
-  // Check for length of at least 8 characters
-  if (password.length >= 4) score++
-
-  if (score === 5) return 'Strong'
-  if (score >= 3) return 'Medium'
-  return 'Weak'
-})
-
-// Watch for password changes
-const checkPasswordStrength = () => {
-  const password = registerForm.value.password
-  if (!password) {
-    showDialog.value = false
-    return
-  }
-  showDialog.value = true
-  passwordMessage.value =
-    strength.value === 'Strong'
-      ? '✅ Strong password!'
-      : strength.value === 'Medium'
-        ? '⚠️ Medium strength, add more characters or symbols.'
-        : '❌ Weak password! Use uppercase, numbers, and symbols.'
-}
-
-
-watch(() => registerForm.value.password, checkPasswordStrength)
-
-const images = [
-  'https://images.unsplash.com/photo-1705948354275-d55101017fb6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNyZWRpdCUyMHNlYXJjaHxlbnwwfHwwfHx8MA%3D%3D',
-  'https://images.unsplash.com/photo-1654263937085-48fb17a63d66?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNyZWRpdCUyMHNlYXJjaHxlbnwwfHwwfHx8MA%3D%3D',
-  'https://plus.unsplash.com/premium_photo-1702634273888-1999beb6120b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bmlnZXJpYW4lMjBidXNpbmVzcyUyMHdvbWFuJTIwbWFya2V0fGVufDB8fDB8fHww'
-]
-
-const currentImage = ref(images[0])
-const showImage = ref(true)
-let intervalId
-
-const changeImage = () => {
-  showImage.value = false // Start fade-out transition
-
-  setTimeout(() => {
-    const currentIndex = images.indexOf(currentImage.value)
-    currentImage.value = images[(currentIndex + 1) % images.length]
-    showImage.value = true // Start fade-in transition
-  }, 500) // Match with CSS transition duration
-}
-
-onMounted(() => {
-  intervalId = setInterval(changeImage, 6000) // 3 minutes
-})
-
-onUnmounted(() => {
-  clearInterval(intervalId)
-})
-</script>
-
 <template>
-  <div class="flex h-screen">
-    <!-- Password Strength Message -->
-    <div
-      v-if="showDialog"
-      class="fixed top-4 right-4 bg-gray-800 text-white p-2 rounded-lg shadow-lg z-50"
-    >
-      <p>{{ passwordMessage }}</p>
+  <Header />
+  <div class="w-full space-y-8">
+    <div class="text-center">
+      <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Create an account</h2>
+      <p class="mt-2 text-sm text-gray-600">Provide your details to create an account</p>
     </div>
-    <!-- Sidebar -->
-    <div class="w-1/3 justify-center p-4 items-center bg-white shadow-xl">
-      <!-- Logo -->
-      <img src="/src/assets/images/white.png" class="m-2" />
-      <ul class="space-y-6 mt-6 ml-4">
-        <li
-          v-for="(step, index) in steps"
-          :key="index"
-          @click="goToStep(index)"
-          class="flex items-center space-x-3 cursor-pointer transition"
-          :class="index <= currentStep ? 'text-black' : 'text-gray-400 cursor-not-allowed'"
-        >
-          <i
-            :class="[
-              'fas',
-              step.icon,
-              'text-lg',
-              index === currentStep ? 'text-blue-600' : 'text-blue-600'
-            ]"
-          ></i>
-          <div>
-            <p :class="[index === currentStep ? 'font-semibold' : 'text-gray-500']">
-              {{ step.title }}
-            </p>
-            <p class="text-sm text-gray-400">
-              {{ step.description }}
-            </p>
+
+    <form class="mt-4 p-4 space-y-6">
+      <div class="space-y-4">
+        <div>
+          <label for="first_name" class="block text-sm font-medium text-gray-700">
+            First Name
+          </label>
+          <div class="mt-1">
+            <input
+              v-model="registerForm.first_name"
+              type="text"
+              id="first_name"
+              required
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="John"
+            />
           </div>
-        </li>
-      </ul>
+        </div>
 
-      <div class="absolute bottom-8 left-8 flex space-x-4 text-gray-500">
-        <RouterLink to="/">
-          <v-btn
-            no-uppercase
-            variant="text"
-            size="large"
-            color="blue"
-            class="normal-case w-full p-4 text-white text-none mr-2"
-          >
-            Sign in
-            <i class="fa-solid fa-arrow-right ml-4 mt-1"></i>
-          </v-btn>
-        </RouterLink>
-      </div>
-    </div>
+        <div>
+          <label for="last_name" class="block text-sm font-medium text-gray-700"> Last Name </label>
+          <div class="mt-1">
+            <input
+              v-model="registerForm.last_name"
+              type="text"
+              id="last_name"
+              required
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="Doe"
+            />
+          </div>
+        </div>
 
-    <!-- Main Content -->
-    <div class="w-1/2 relative p-4 m-4 bg-white">
-      <!-- Business Details Form -->
-      <div
-        class="max-w-md w-full items-center justify-center flex text-center"
-        v-if="currentStep === 0"
-      >
-        <div class="space-y-4 items-center justify-center">
-          <input
-            v-model="registerForm.business_name"
-            type="text"
-            placeholder="Business name"
-            class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-100"
-          />
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"> Email Address </label>
+          <div class="mt-1">
+            <input
+              v-model="registerForm.email"
+              type="email"
+              id="email"
+              required
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="johndoe@example.com"
+            />
+          </div>
+        </div>
 
-          <input
-            v-model="registerForm.business_reg_number"
-            type="text"
-            placeholder="Business registeration number"
-            class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-100"
-          />
-
-          <input
-            v-model="registerForm.business_type"
-            type="text"
-            placeholder="Business type"
-            class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-100"
-          />
-
-          <input
-            v-model="registerForm.business_email"
-            type="email"
-            placeholder="Email address"
-            class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-100"
-          />
-
-          <input
-            v-model="registerForm.phone_number"
-            type="text"
-            placeholder="Mobile number"
-            class="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-100"
-          />
-
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            v-model="registerForm.password"
-            label="Password"
-            variant="outlined"
-            color="blue"
-          >
-            <template #append-inner>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700"> Password </label>
+          <div class="relative mt-1">
+            <input
+              v-model="registerForm.password"
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              required
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="Enter password"
+            />
+            <button
+              type="button"
+              @click="showPassword = !showPassword"
+              class="absolute inset-y-0 right-0 flex items-center pr-3"
+            >
               <i
                 :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
-                @click="togglePasswordVisibility"
-                class="cursor-pointer text-black"
+                class="h-4 w-4 text-gray-800"
               ></i>
-            </template>
-          </v-text-field>
+            </button>
+          </div>
 
-          <div class="flex mb-4">
+          <!-- Password strength indicators -->
+          <div v-if="registerForm.password" class="mt-2 space-y-2">
+            <div class="flex items-center gap-2">
+              <div class="flex-shrink-0">
+                <svg
+                  v-if="hasUppercase"
+                  class="w-4 h-4 text-green-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M8 12L11 15L16 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M15 9L9 15M9 9L15 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span class="text-sm" :class="hasUppercase ? 'text-green-500' : 'text-red-500'">
+                Uppercase letters
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-shrink-0">
+                <svg
+                  v-if="hasLowercase"
+                  class="w-4 h-4 text-green-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M8 12L11 15L16 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M15 9L9 15M9 9L15 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span class="text-sm" :class="hasLowercase ? 'text-green-500' : 'text-red-500'">
+                Lowercase letters
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-shrink-0">
+                <svg
+                  v-if="hasNumber"
+                  class="w-4 h-4 text-green-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M8 12L11 15L16 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M15 9L9 15M9 9L15 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span class="text-sm" :class="hasNumber ? 'text-green-500' : 'text-red-500'">
+                Numbers
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-shrink-0">
+                <svg
+                  v-if="hasSpecialChar"
+                  class="w-4 h-4 text-green-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M8 12L11 15L16 9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  class="w-4 h-4 text-red-500"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M15 9L9 15M9 9L15 15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span class="text-sm" :class="hasSpecialChar ? 'text-green-500' : 'text-red-500'">
+                Special characters
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+            Confirm Password
+          </label>
+          <div class="mt-1">
             <input
-              v-model="registerForm.terms"
-              type="checkbox"
-              id="terms"
+              v-model="registerForm.password_confirmation"
+              type="password"
+              id="password_confirmation"
               required
-              class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="Enter password again"
             />
-            <label for="terms" class="ml-2 block text-sm text-gray-900">
-              I agree to the Terms of Service and Privacy Policy
-            </label>
           </div>
+        </div>
 
-          <v-btn
-            @click="submitForm"
-            :disabled="registerForm.processing"
-            no-uppercase
-            size="large"
-            class="normal-case ml-auto w-full p-4 bg-blue-600 hover:bg-blue-700 text-white text-none mr-2 custom-btn"
-          >
-            {{ registerForm.processing ? 'Creating account...' : 'Next Step' }}
-          </v-btn>
+        <div class="flex gap-2">
+          <input
+            v-model="registerForm.terms"
+            type="checkbox"
+            id="terms"
+            required
+            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <label for="terms" class="ml-2 block text-sm text-gray-900">
+            I agree to the Terms of Service and Privacy Policy
+          </label>
         </div>
       </div>
 
-      <!-- Email Verification Section -->
-      <div v-if="currentStep === 1" class="mt-6 p-6 w-full">
-        <div class="bg-white shadow-lg rounded-lg p-8 max-w-md text-center">
-          <div class="text-blue-500 text-6xl mb-4">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">Verify Your Email</h2>
-          <p class="text-gray-600 mb-6">
-            We have sent a verification link to your email address. Please check your inbox and
-            click on the link to verify your account.
-          </p>
-          <v-btn
-            no-uppercase
-            size="large"
-            class="normal-case w-full p-4 bg-blue-600 hover:bg-blue-700 text-white text-none mr-2 custom-btn"
-          >
-            Resend email
-          </v-btn>
-          <p class="text-gray-500 text-sm mt-4">
-            Didn't receive an email? Check your spam folder or
-            <a href="#" class="text-blue-500 hover:underline">contact support</a>.
-          </p>
-        </div>
+      <div>
+        <button
+          type="submit"
+          :disabled="registerForm.processing"
+          class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+          {{ registerForm.processing ? 'Creating account...' : 'Create account' }}
+        </button>
       </div>
-    </div>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-gray-500">
+      Already have an account?
+      <button type="button" class="font-semibold text-blue-600 hover:text-blue-500 ml-1">
+        Sign in
+      </button>
+    </p>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import Header from '@/components/Header.vue'
+
+const registerForm = ref({
+  first_name: '',
+  last_name: '',
+  email: '',
+  password: '',
+  errors: {
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: ''
+  },
+  processing: false
+})
+</script>
 
 <style scoped>
 .custom-btn {
