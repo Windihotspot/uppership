@@ -8,11 +8,13 @@
       <div class="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4">
         <!-- Logo -->
         <div class="relative z-20 flex w-full justify-between md:px-0 lg:w-fit">
-          <img
-            src="/src/assets/uppership.png"
-            alt="Uppership Logo"
-            class="h-10 w-auto object-contain sm:h-12 lg:h-14"
-          />
+          <RouterLink to="/">
+            <img
+              src="/src/assets/uppership.png"
+              alt="Uppership Logo"
+              class="h-10 w-auto object-contain sm:h-12 lg:h-14"
+            />
+          </RouterLink>
 
           <!-- Hamburger -->
           <div class="relative flex max-h-10 items-center lg:hidden">
@@ -45,7 +47,6 @@
               <a
                 v-for="link in links"
                 :key="link.label"
-                
                 @click="toggleNav"
                 class="hover:text-primary block transition dark:hover:text-white md:px-4"
               >
@@ -68,12 +69,14 @@
           </div>
 
           <div class="mt-6 w-full lg:mt-0 lg:w-auto">
-            <a
-              href="/login"
-              class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
-            >
-              <span class="relative text-sm font-semibold text-white">Login</span>
-            </a>
+            <RouterLink to="/login">
+              <a
+                href="/login"
+                class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+              >
+                <span class="relative text-sm font-semibold text-white">Login</span>
+              </a>
+            </RouterLink>
           </div>
         </div>
       </div>

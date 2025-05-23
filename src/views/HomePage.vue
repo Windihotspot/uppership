@@ -15,7 +15,7 @@
       ></div>
 
       <!-- Dark overlay to enhance text visibility -->
-       <div class="absolute inset-0 bg-blue-300 bg-opacity-60 z-10"></div>
+      <div class="absolute inset-0 bg-blue-300 bg-opacity-60 z-10"></div>
 
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
@@ -24,7 +24,6 @@
           We Provide Best Dispatch <br />
           and Parcel Services
         </h1>
-        
       </div>
     </section>
 
@@ -54,14 +53,18 @@
         <p class="mb-4 text-sm">
           Enrol in Uppership and take the worry of having your parcel sit outside for delivery
         </p>
-        <v-btn color="#FFC400" class="btn p-1 mb-2" rounded="pill">
-          Sign up
-          <i class="fa-solid fa-arrow-right ml-2"></i>
-        </v-btn>
+        <RouterLink to="/signup">
+          <v-btn to="/signup" color="#FFC400" class="btn p-1 mb-2" rounded="pill">
+            Sign up
+            <i class="fa-solid fa-arrow-right ml-2"></i>
+          </v-btn>
+        </RouterLink>
 
         <div class="flex mt-6">
           <p class="mt-2 text-sm">Already enrolled?</p>
-          <v-btn color="primary" class="mx-2 btn p-2" variant="text"> Login </v-btn>
+          <RouterLink to="/login">
+            <v-btn to="/login" color="primary" class="mx-2 btn p-2" variant="text"> Login </v-btn>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -267,7 +270,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Header from '@/components/Header.vue'
 
-import { useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
 const trackingNumber = ref('')
 const router = useRouter()
