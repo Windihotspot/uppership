@@ -15,7 +15,7 @@
       ></div>
 
       <!-- Dark overlay to enhance text visibility -->
-      <div class="absolute inset-0 bg-blue-300 bg-opacity-60 z-10"></div>
+      <div class="absolute inset-0 z-10"></div>
 
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
@@ -24,11 +24,15 @@
           We Provide Best Dispatch <br />
           and Parcel Services
         </h1>
+
+        <v-btn size="large" to="/quote" color="#FFC400" class="btn p-2 mb-2 text-white lowercase custom-btn" rounded="pill"> Get Quotes </v-btn>
       </div>
+
+      
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-8 p-2">
-      <div class="bg-white p-6 rounded-2xl shadow-lg h-[250px] md:col-span-3">
+      <div class="bg-white p-6 rounded md:col-span-3">
         <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
         <v-text-field
           @click="goToTrackingPage"
@@ -48,7 +52,7 @@
       </div>
 
       <!-- Sign up form -->
-      <div class="bg-white p-6 rounded-2xl shadow-lg h-[250px] mb-4 md:col-span-2">
+      <div class="bg-white rounded p-6 mb-4 md:col-span-2">
         <p class="mb-2 text-sm font-semibold">Set delivery alerts for your parcel</p>
         <p class="mb-4 text-sm">
           Enrol in Uppership and take the worry of having your parcel sit outside for delivery
@@ -69,7 +73,7 @@
       </div>
     </div>
 
-    <section class="py-16 bg-white rounded m-2">
+    <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid gap-8 md:grid-cols-3">
           <div
@@ -220,7 +224,7 @@
       </section>
     </template>
 
-    <section class="flex flex-col lg:flex-row items-center gap-8 px-6 py-12 bg-white rounded m-2">
+    <section class="flex flex-col lg:flex-row items-center gap-8 px-6 py-12 bg-white">
       <!-- Left Text Content -->
       <div class="flex-1 max-w-xl space-y-6">
         <div
@@ -253,22 +257,26 @@
 
       <!-- video Image -->
       <!-- Truck Video -->
-      <div class="flex-1">
-        <video class="w-full max-w-lg mx-auto" autoplay muted loop playsinline>
-          <source
-            src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/EeN01lAOxijss6byx/videoblocks-e-logistics-international-delivery-concept-world-map-with-logistic-network-distribution-on-background-cargo-ships-delivery-containers-in-port-stock-background-for-concept-of-fast-or-instant_screrixxu__390caab288fbb417c930e9f54343cf18__P360.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+      <!-- Carousel Image Replacement -->
+<div class="flex-1">
+  <div class="relative w-full max-w-lg h-64 mx-auto overflow-hidden rounded-lg shadow-md">
+    <img
+      :src="carouselImages[currentCarouselIndex]"
+      alt="Carousel image"
+      class="w-full h-full object-cover transition-all duration-700"
+    />
+  </div>
+</div>
+
     </section>
   </div>
+  <Footer />
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 
 import { RouterLink, useRouter } from 'vue-router'
 
@@ -299,8 +307,7 @@ const carouselImages = [
   'https://images.pexels.com/photos/6169056/pexels-photo-6169056.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/4481530/pexels-photo-4481530.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&w=600',
-  'https://images.pexels.com/photos/6170098/pexels-photo-6170098.jpeg?auto=compress&cs=tinysrgb&w=600',
-  'https://images.pexels.com/photos/5025512/pexels-photo-5025512.jpeg?auto=compress&cs=tinysrgb&w=600'
+  
 ]
 const currentCarouselIndex = ref(0)
 
@@ -382,4 +389,8 @@ const faqItems = [
 ]
 </script>
 
-<style></style>
+<style scoped>
+ .custom-btn{
+  text-transform: none;
+ }
+</style>

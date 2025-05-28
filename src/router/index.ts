@@ -11,6 +11,7 @@ import HomeView from '@/views/HomePage.vue'
 import HomePage from '@/views/HomePage.vue'
 import TrackingPage from '@/views/TrackingPage.vue'
 import AddTrack from '@/views/AddTrack.vue'
+import GetQuote from '@/views/GetQuote.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,39 +36,13 @@ const router = createRouter({
       name: 'login',
       component: Login
     },
-    {
-      path: '/verified',
-      name: 'verified',
-      component: VerifiedEmail
-    },
 
     {
-      path: '/wallet',
-      name: 'wallet',
-      component: Wallet
+      path: '/quote',
+      name: 'quote',
+      component: GetQuote
     },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: Settings
-    },
-    {
-      path: '/analysis',
-      name: 'analysis',
-      component: Analysis
-    },
-    {
-      path: '/resetpassword',
-      name: 'resetpassword',
-      component: ResetPassword
-    },
-    {
-      path: '/statement-analysis/:id',
-      name: 'StatementAnalysis',
-      component: () => import('@/views/StatementAnalysis.vue'),
-      props: true
-    },
-    
+
     { path: '/track/:trackingNumber', name: 'Track', component: TrackingPage },
     {
       path: '/addshipment',
@@ -75,7 +50,6 @@ const router = createRouter({
       component: AddTrack,
       props: true
     }
-    
   ]
 })
 

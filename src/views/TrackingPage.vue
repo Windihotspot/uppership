@@ -45,20 +45,7 @@ onMounted(async () => {
 
     <Timeline v-else :events="events" />
 
-    <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
-      <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
-      <v-text-field
-        label="Tracking Number"
-        variant="outlined"
-        dense
-        required
-        color="blue"
-        class="w-full"
-        v-model="trackingNumber"
-      ></v-text-field>
-      <div class="mt-4">
-        <v-btn variant="outlined" rounded="pill" color="primary">Track</v-btn>
-      </div>
-    </div>
+   
   </div>
+  <Footer/>
 </template>

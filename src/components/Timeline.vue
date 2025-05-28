@@ -18,51 +18,51 @@
       <div v-if="lastEvent" class="border-t pt-3">
         <div class="text-xs text-gray-500">Delivered To</div>
         <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.location }}</div>
-        <a href="" class="text-blue-600 mb-6">
+        <!-- <a href="" class="text-blue-600 mb-6">
           Proof of delivery
           <i class="fa-solid fa-arrow-right ml-2"></i>
-        </a>
-       
+        </a> -->
       </div>
 
       <!-- Element Plus Timeline -->
-       <div class="mt-4">
+      <div class="mt-4">
         <el-timeline>
-        <el-timeline-item
-          v-for="event in reversedEvents"
-          :key="event.id"
-          :timestamp="event.formattedDate"
-          type="success"
-          :color="'#22c55e'"
-          :icon="getStatusIconComponent(event.status)"
-          size="large"
-        >
-          <div>
-            <p class="font-semibold text-gray-800">{{ event.status }}</p>
+          <el-timeline-item
+            v-for="event in reversedEvents"
+            :key="event.id"
+            :timestamp="event.formattedDate"
+            type="success"
+            :color="'#22c55e'"
+            :icon="getStatusIconComponent(event.status)"
+            size="large"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">{{ event.status }}</p>
 
-            <p class="text-sm text-gray-600">{{ event.location }}</p>
-          </div>
-        </el-timeline-item>
-      </el-timeline>
-       </div>
-      
+              <p class="text-sm text-gray-600">{{ event.location }}</p>
+            </div>
+          </el-timeline-item>
+        </el-timeline>
+      </div>
     </div>
 
     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
-      <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
-      <v-text-field
-        label="Tracking Number"
-        variant="outlined"
-        dense
-        required
-        color="blue"
-        class="w-full"
-      ></v-text-field>
-      <div class="mt-4">
-        <v-btn variant="outlined" rounded="pill" color="primary">Track</v-btn>
+      <p class="text-blue-600 text-sm font-medium mb-2 cursor-pointer hover:underline">
+        View All Shipping Details
+      </p>
+      <div class="border-2 border-blue-300 rounded-md p-3">
+        <h2 class="font-semibold text-gray-800 mb-1">Get Answers Fast</h2>
+        <p class="text-sm text-gray-700">
+          If you need help, use the
+          <a href="#" class="text-blue-600 hover:underline">Virtual Assistant</a>. Still stuck? Try
+          our
+          <a href="#" class="text-blue-600 hover:underline">Tracking Support</a>
+          for more specific guidance.
+        </p>
       </div>
     </div>
   </div>
+  
 </template>
 
 <script setup>

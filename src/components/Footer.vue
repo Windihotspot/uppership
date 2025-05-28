@@ -1,83 +1,84 @@
-<script setup>
-
-</script>
-
 <template>
-   <footer class="bg-white rounded text-black py-12 m-4">
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-5 gap-8 m-2">
-        <!-- Logo & Description -->
-        <div class="space-y-4 md:col-span-1">
-          <p class="text-sm ">
-            At Upperships, we're dedicated to revolutionizing the way you experience convenience and
-            efficiency in your everyday life. We understand that your time is precious, and our
-            mission is to make it count.
-          </p>
-          <!-- Socials -->
-          <div class="flex space-x-4 pt-4">
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+  <footer class="bg-white border-t text-sm text-gray-700">
+    <div class="max-w-7xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-red-600 font-semibold mb-2">Quick Links</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:underline">Customer Service</a></li>
+          <li><a href="#" class="hover:underline">Customer Portal Logins</a></li>
+          <li><a href="#" class="hover:underline">Digital Partners and Integrations</a></li>
+          <li>
+            <a href="#" class="hover:underline"
+              >Developer Portal <span aria-hidden="true">↗</span></a
+            >
+          </li>
+          <li><a href="#" class="hover:underline">Get a Quote</a></li>
+          <li><a href="#" class="hover:underline">uppership for Business</a></li>
+        </ul>
+      </div>
+
+      <!-- Our Divisions -->
+      <div>
+        <h3 class="text-black font-semibold mb-2">Our Divisions</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:underline">uppership Express</a></li>
+          <li><a href="#" class="hover:underline">uppership Global Forwarding</a></li>
+          <li><a href="#" class="hover:underline">Other Global Divisions</a></li>
+        </ul>
+      </div>
+
+      <!-- Company Info -->
+      <div>
+        <h3 class="text-black font-semibold mb-2">Company Information</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:underline">About uppership</a></li>
+          <li>
+            <a href="#" class="hover:underline">Delivered <span aria-hidden="true">↗</span></a>
+          </li>
+          <li><a href="#" class="hover:underline">Careers</a></li>
+          <li><a href="#" class="hover:underline">Press Center</a></li>
+          <li>
+            <a href="#" class="hover:underline">Investors <span aria-hidden="true">↗</span></a>
+          </li>
+          <li><a href="#" class="hover:underline">Sustainability</a></li>
+          <li><a href="#" class="hover:underline">Brand Partnerships</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bg-gray-100 py-6 px-4 border-t">
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+      >
+        <!-- Logo & Legal Links -->
+        <div>
+          <img src="/src/assets/uppership.png" alt="uppership Group" class="h-6 mb-2" />
+          <div class="flex flex-wrap gap-4 text-xs text-gray-600">
+            <a href="#" class="hover:underline">Fraud Awareness</a>
+            <a href="#" class="hover:underline">Legal Notice</a>
+            <a href="#" class="hover:underline">Terms of Use</a>
+            <a href="#" class="hover:underline">Privacy Notice</a>
+            <a href="#" class="hover:underline">Dispute Resolution</a>
+            <a href="#" class="hover:underline">Additional Information</a>
+            <a href="#" class="hover:underline">Cookie Settings</a>
           </div>
         </div>
 
-        <!-- Company -->
-        <!-- <div>
-          <h3 class="text-lg font-semibold mb-4">Company</h3>
-          <ul class="space-y-2 text-sm text-gray-300">
-            <li><a href="#" class="hover:text-white">→ Home</a></li>
-            <li><a href="#" class="hover:text-white">→ About</a></li>
-            <li><a href="#" class="hover:text-white">→ Team</a></li>
-            <li><a href="#" class="hover:text-white">→ Service</a></li>
-          </ul>
-        </div> -->
-
-        <!-- Useful Link 1 -->
+        <!-- Social Icons -->
         <div>
-          
-          <ul class="space-y-2 text-sm ">
-            <li><a href="#" class="hover:text-white">→ Order Tracking</a></li>
-            <li><a href="#" class="hover:text-white">→ Contact</a></li>
-            <li><a href="#" class="hover:text-white">→ Blog</a></li>
-            <li><a href="#" class="hover:text-white">→ FAQ</a></li>
-          </ul>
-        </div>
-
-        <!-- Useful Link 2 -->
-        <div>
-          
-          <ul class="space-y-2 text-sm ">
-            <li><a href="#" class="hover:text-white">→ Terms of Service</a></li>
-            <li><a href="#" class="hover:text-white">→ Refund Policy</a></li>
-            <li><a href="#" class="hover:text-white">→ Privacy and Policy</a></li>
-            <li><a href="#" class="hover:text-white">→ Support</a></li>
-          </ul>
-        </div>
-
-        <!-- Contact Info -->
-        <div>
-          
-          <ul class="space-y-2 text-sm ">
-            <li class="flex items-start">
-              <i class="fas fa-map-marker-alt w-5 pt-1"></i
-              ><span
-                >Upperships London Office 23 Main Street, London, SW1A 1AA, United Kingdom.</span
-              >
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-mobile-alt w-5"></i><span>Mobile: +1 (409) 632-4189</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-fax w-5"></i><span>Fax: +1 (409) 632-4189</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-envelope w-5"></i><span>info@Uppershipsp.com</span>
-            </li>
-          </ul>
+          <p class="font-semibold mb-2">Follow Us</p>
+          <div class="flex space-x-4 text-gray-600 text-xl">
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
         </div>
       </div>
-    </footer>
-        <!-- Chatbot -->
-       
+    </div>
 
+    
+  </footer>
 </template>
