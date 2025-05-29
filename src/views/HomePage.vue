@@ -20,10 +20,10 @@
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
         <p class="text-lg md:text-xl font-semibold mb-4 tracking-wider">Welcome to Upperships</p>
-        <h1 class="text-3xl md:text-6xl font-bold leading-tight md:leading-snug mb-6">
+        <!-- <h1 class="text-3xl md:text-6xl font-bold leading-tight md:leading-snug mb-6">
           We Provide Best Dispatch <br />
           and Parcel Services
-        </h1>
+        </h1> -->
 
         <v-btn size="large" to="/quote" color="#FFC400" class="btn p-2 mb-2 text-white lowercase custom-btn" rounded="pill"> Get Quotes </v-btn>
       </div>
@@ -289,14 +289,11 @@ const goToTrackingPage = () => {
   }
 }
 
-const images = [
-  'https://images.unsplash.com/photo-1568347877321-f8935c7dc5a3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hpcHBpbmd8ZW58MHx8MHx8fDA%3D',
-  'https://plus.unsplash.com/premium_photo-1683120796013-f2f18451a907?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c2hpcHBpbmclMjBsb2dpc3RpY3N8ZW58MHx8MHx8fDA%3D',
-  'https://images.unsplash.com/photo-1725449264087-28926bc1a610?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hpcHBpbmclMjBsb2dpc3RpY3N8ZW58MHx8MHx8fDA%3D',
-  'https://images.unsplash.com/photo-1644134913825-5ff0ff4e731c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNoaXBwaW5nJTIwbG9naXN0aWNzfGVufDB8fDB8fHww',
-  'https://images.unsplash.com/photo-1634638022845-1ab614a94128?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHNoaXBwaW5nJTIwbG9naXN0aWNzfGVufDB8fDB8fHww',
-  'https://images.pexels.com/photos/3856433/pexels-photo-3856433.jpeg?auto=compress&cs=tinysrgb&w=600'
-]
+const images = Object.values(import.meta.glob('@/assets/images/background/*.jpg', {
+  eager: true,
+  import: 'default'
+}));
+
 
 const currentIndex = ref(0)
 let intervalId = null

@@ -1,8 +1,13 @@
 <template>
-   <v-btn class="text-sm px-4 py-2 flex items-center gap-2 custom-btn mt-4" variant="plain" color="blue">
-  <i class="fas fa-arrow-left text-base mr-2"></i>
-  Back
-</v-btn>
+  <v-btn
+    to="/"
+    class="text-sm px-4 py-2 flex items-center gap-2 custom-btn m-4"
+    variant="plain"
+    color="blue"
+  >
+    <i class="fas fa-arrow-left text-base mr-2"></i>
+    Back
+  </v-btn>
 
   <v-form
     ref="shipmentForm"
@@ -133,11 +138,16 @@
     </div>
 
     <!-- Submit -->
-    <v-btn :disabled="!valid" size="large" color="red" class="mt-4 custom-btn mx-auto items-center flex justify-center" @click="submitForm">
+    <v-btn
+      :disabled="!valid"
+      size="large"
+      color="red"
+      class="mt-4 custom-btn mx-auto items-center flex justify-center"
+      @click="submitForm"
+    >
       Get Quote
     </v-btn>
   </v-form>
- 
 </template>
 
 <script setup>
