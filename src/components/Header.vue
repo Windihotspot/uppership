@@ -44,14 +44,15 @@
               id="links-group"
               class="flex flex-col gap-4 tracking-wide lg:flex-row lg:gap-0 lg:text-sm"
             >
-              <a
+              <RouterLink
                 v-for="link in links"
                 :key="link.label"
-                @click="toggleNav"
+                :to="link.to"
+                @click.native="toggleNav"
                 class="hover:text-primary block transition dark:hover:text-white md:px-4"
               >
-                <span>{{ link.label }}</span>
-              </a>
+                {{ link.label }}
+              </RouterLink>
 
               <!-- <a
                 href="https://tailtips.dev"
@@ -69,13 +70,11 @@
           </div>
 
           <div class="mt-6 w-full lg:mt-0 lg:w-auto">
-            <RouterLink to="/login">
-              <a
-                href="/login"
-                class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
-              >
-                <span class="relative text-sm font-semibold text-white">Login</span>
-              </a>
+            <RouterLink
+              to="/login"
+              class="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+            >
+              <span class="relative text-sm font-semibold text-white">Login</span>
             </RouterLink>
           </div>
         </div>
