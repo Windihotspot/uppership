@@ -13,6 +13,7 @@ import TrackingPage from '@/views/TrackingPage.vue'
 import AddTrack from '@/views/AddTrack.vue'
 import GetQuote from '@/views/GetQuote.vue'
 import About from '@/views/About.vue'
+import ShipmentPage from '@/views/ShipmentPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +44,13 @@ const router = createRouter({
       name: 'quote',
       component: GetQuote
     },
-    ,
+    
+    {
+      path: '/shipment',
+      name: 'shipment',
+      component: ShipmentPage
+    },
+    
 
     {
       path: '/about',

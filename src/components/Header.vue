@@ -90,7 +90,7 @@ const isToggled = ref(false)
 
 const links = [
   { to: '/about', label: 'About' },
-  { to: '/shipping', label: 'Shipping' },
+  { to: '/shipment', label: 'Shipping' },
   { to: '/support', label: 'Support' }
 ]
 
