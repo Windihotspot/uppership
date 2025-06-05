@@ -6,14 +6,14 @@
       <div class="text-xs font-semibold mb-6">{{ trackingNumber }}</div>
 
       <!-- Delivered Info -->
-      <div v-if="lastEvent" class="flex items-center font-semibold mb-1">
+      <!-- <div v-if="lastEvent" class="flex items-center font-semibold mb-1">
         <i class="fas fa-check-circle mr-1 text-green-600"></i>
         Delivered On
       </div>
 
       <div v-if="lastEvent" class="text-green-600 font-bold text-base mb-4">
         {{ formatDate(lastEvent.created_at) }}
-      </div>
+      </div> -->
 
       <div v-if="lastEvent" class="border-t pt-3">
         <div class="text-xs text-gray-500">Delivered To</div>

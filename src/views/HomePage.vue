@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div class="bg-gray-100">
-    <section class="relative h-96 mb-4 text-white overflow-hidden">
+    <section class=" relative h-96 mb-4 text-white overflow-hidden">
       <!-- Background image layer -->
       <div
         v-for="(img, i) in images"
@@ -15,7 +15,7 @@
       ></div>
 
       <!-- Dark overlay to enhance text visibility -->
-      <div class="absolute inset-0 z-10"></div>
+      <div class="absolute inset-0 z-10 bg-black-100"></div>
 
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
@@ -25,14 +25,20 @@
           and Parcel Services
         </h1> -->
 
-        <v-btn size="large" to="/quote" color="#FFC400" class="btn p-2 mb-2 text-white lowercase custom-btn" rounded="pill"> Get Quotes </v-btn>
+        <v-btn
+          size="large"
+          to="/quote"
+          color="red"
+          class="btn p-2 mb-2 text-white lowercase custom-btn"
+          rounded="pill"
+        >
+          Get Quotes
+        </v-btn>
       </div>
-
-      
     </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-8 p-2">
-      <div class="bg-white p-6 rounded md:col-span-3">
+    <div class="bg-transparent grid grid-cols-1 md:grid-cols-5 gap-8 p-2">
+      <div class="m-2 bg-white p-6 rounded md:col-span-3">
         <p class="mb-6 text-lg font-semibold">Track Your Parcel</p>
         <v-text-field
           @click="goToTrackingPage"
@@ -44,11 +50,10 @@
           class="w-full"
           v-model="trackingNumber"
         ></v-text-field>
-        <div class="mt-4">
-          <v-btn @click="goToTrackingPage" variant="outlined" rounded="pill" color="primary"
-            >Track</v-btn
-          >
-        </div>
+      </div>
+
+      <div class="m-2">
+        <v-btn size="large" @click="goToTrackingPage" color="red" class="w-full">Track</v-btn>
       </div>
 
       <!-- Sign up form -->
@@ -58,7 +63,7 @@
           Enrol in Uppership and take the worry of having your parcel sit outside for delivery
         </p>
         <RouterLink to="/signup">
-          <v-btn to="/signup" color="#FFC400" class="btn p-1 mb-2" rounded="pill">
+          <v-btn to="/signup" color="red" class="btn p-1 mb-2" rounded="pill">
             Sign up
             <i class="fa-solid fa-arrow-right ml-2"></i>
           </v-btn>
@@ -67,7 +72,7 @@
         <div class="flex mt-6">
           <p class="mt-2 text-sm">Already enrolled?</p>
           <RouterLink to="/login">
-            <v-btn to="/login" color="primary" class="mx-2 btn p-2" variant="text"> Login </v-btn>
+            <v-btn to="/login" color="red" class="mx-2 btn p-2" variant="text"> Login </v-btn>
           </RouterLink>
         </div>
       </div>
@@ -102,7 +107,7 @@
         <!-- Left Content -->
         <div>
           <div
-            class="inline-block bg-[#FFC400] text-white text-sm font-semibold px-4 py-1 rounded-tr-lg rounded-bl-lg mb-4"
+            class="inline-block bg-red text-white text-sm font-semibold px-4 py-1 rounded-tr-lg rounded-bl-lg mb-4"
           >
             Why We Are The Best
           </div>
@@ -227,9 +232,7 @@
     <section class="flex flex-col lg:flex-row items-center gap-8 px-6 py-12 bg-white">
       <!-- Left Text Content -->
       <div class="flex-1 max-w-xl space-y-6">
-        <div
-          class="inline-block bg-[#FFC400] text-white px-4 py-1 rounded-t-md rounded-bl-md shadow"
-        >
+        <div class="inline-block bg-red text-white px-4 py-1 rounded-t-md rounded-bl-md shadow">
           What We Offer
         </div>
         <h2 class="text-4xl font-bold text-gray-900">Explore Our Services and Solutions</h2>
@@ -258,16 +261,15 @@
       <!-- video Image -->
       <!-- Truck Video -->
       <!-- Carousel Image Replacement -->
-<div class="flex-1">
-  <div class="relative w-full max-w-lg h-64 mx-auto overflow-hidden rounded-lg shadow-md">
-    <img
-      :src="carouselImages[currentCarouselIndex]"
-      alt="Carousel image"
-      class="w-full h-full object-cover transition-all duration-700"
-    />
-  </div>
-</div>
-
+      <div class="flex-1">
+        <div class="relative w-full max-w-lg h-64 mx-auto overflow-hidden rounded-lg shadow-md">
+          <img
+            :src="carouselImages[currentCarouselIndex]"
+            alt="Carousel image"
+            class="w-full h-full object-cover transition-all duration-700"
+          />
+        </div>
+      </div>
     </section>
   </div>
   <Footer />
@@ -289,11 +291,12 @@ const goToTrackingPage = () => {
   }
 }
 
-const images = Object.values(import.meta.glob('@/assets/images/background/*.jpg', {
-  eager: true,
-  import: 'default'
-}));
-
+const images = Object.values(
+  import.meta.glob('@/assets/images/background/*.jpg', {
+    eager: true,
+    import: 'default'
+  })
+)
 
 const currentIndex = ref(0)
 let intervalId = null
@@ -303,8 +306,7 @@ let carouselIntervalId = null
 const carouselImages = [
   'https://images.pexels.com/photos/6169056/pexels-photo-6169056.jpeg?auto=compress&cs=tinysrgb&w=600',
   'https://images.pexels.com/photos/4481530/pexels-photo-4481530.jpeg?auto=compress&cs=tinysrgb&w=600',
-  'https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&w=600',
-  
+  'https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&w=600'
 ]
 const currentCarouselIndex = ref(0)
 
@@ -387,7 +389,7 @@ const faqItems = [
 </script>
 
 <style scoped>
- .custom-btn{
+.custom-btn {
   text-transform: none;
- }
+}
 </style>
