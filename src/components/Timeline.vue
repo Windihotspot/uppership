@@ -16,7 +16,7 @@
       </div> -->
 
       <div v-if="lastEvent" class="border-t pt-3">
-        <div class="text-xs text-gray-500">Delivered To</div>
+        <div class="text-xs text-gray-500">Current Location</div>
         <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.location }}</div>
         <!-- <a href="" class="text-blue-600 mb-6">
           Proof of delivery
