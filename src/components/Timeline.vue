@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
+    <!-- <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
       <p class="text-blue-600 text-sm font-medium mb-2 cursor-pointer hover:underline">
         View All Shipping Details
       </p>
@@ -60,7 +60,7 @@
           for more specific guidance.
         </p>
       </div>
-    </div>
+    </div> -->
   </div>
   
 </template>
