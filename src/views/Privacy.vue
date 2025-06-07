@@ -9,7 +9,7 @@
         <h2 class="text-4xl font-extrabold text-red-600 mb-2">
           <i class="fas fa-user-shield mr-2"></i>Privacy Notice
         </h2>
-        <p class="text-lg text-gray-700">Understand your data rights and how DHL protects your personal information.</p>
+        <p class="text-lg text-gray-700">Understand your data rights and how upperships protects your personal information.</p>
       </section>
 
       <section>
@@ -24,7 +24,7 @@
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Right to Obtain</h3>
-        <p>You can obtain your information by contacting data protection here: <a href="#" class="text-blue-600 underline">DHL Data Protection</a>.</p>
+        <p>You can obtain your information by contacting data protection here: <a href="#" class="text-blue-600 underline">upperships Data Protection</a>.</p>
       </section>
 
       <section>
@@ -34,12 +34,12 @@
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Right to Withdraw Your Consent</h3>
-        <p>You may withdraw your consent at any time with future effect. Use the contact details provided under "Who is Responsible" or reach out to <a href="#" class="text-blue-600 underline">DHL Data Protection</a>.</p>
+        <p>You may withdraw your consent at any time with future effect. Use the contact details provided under "Who is Responsible" or reach out to <a href="#" class="text-blue-600 underline">upperships Data Protection</a>.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">How About Data Security?</h3>
-        <p>DHL takes data security seriously. We use firewalls, intrusion detection, monitoring, encryption, and secure environments to protect your data. Transmission security is ensured through SSL when supported by your browser.</p>
+        <p>upperships takes data security seriously. We use firewalls, intrusion detection, monitoring, encryption, and secure environments to protect your data. Transmission security is ensured through SSL when supported by your browser.</p>
         <p>We maintain physical security and certified data centers. Our internal audits align with the ISO 27001 standard. Employees receive regular security training and simulation exercises are run by our Cyber Defense Center.</p>
         <p>Please note that email communication may not be secure. For confidential information, we recommend using postal mail.</p>
       </section>
@@ -50,9 +50,9 @@
       </section>
 
       <section>
-        <h3 class="text-2xl font-bold mb-2">DHL Group Data Privacy Policy</h3>
-        <p>The DHL Group Data Privacy Policy outlines our global data processing standards, especially regarding transfers to countries outside the EU without adequate data protection laws.</p>
-        <p>If you wish to learn more, you can download the full policy document here: <a href="#" class="text-blue-600 underline">DHL Group Data Privacy Policy</a></p>
+        <h3 class="text-2xl font-bold mb-2">upperships Group Data Privacy Policy</h3>
+        <p>The upperships Group Data Privacy Policy outlines our global data processing standards, especially regarding transfers to countries outside the EU without adequate data protection laws.</p>
+        <p>If you wish to learn more, you can download the full policy document here: <a href="#" class="text-blue-600 underline">upperships Group Data Privacy Policy</a></p>
       </section>
     </main>
 

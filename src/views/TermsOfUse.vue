@@ -8,12 +8,12 @@
         <h2 class="text-4xl font-extrabold text-red-600 mb-2">
           <i class="fas fa-file-contract mr-2"></i>Terms of Use
         </h2>
-        <p class="text-lg text-gray-700">These are the standard Terms and Conditions for use of the DHL website. Local variations may apply by country.</p>
+        <p class="text-lg text-gray-700">These are the standard Terms and Conditions for use of the upperships website. Local variations may apply by country.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Copyright</h3>
-        <p>The copyright in this publication is owned by DHL International GmbH.</p>
+        <p>The copyright in this publication is owned by upperships International GmbH.</p>
       </section>
 
       <section>
@@ -21,14 +21,14 @@
         <ul class="list-disc list-inside space-y-2">
           <li>The material may be used for informational and non-commercial purposes only.</li>
           <li>It may not be modified in any way.</li>
-          <li>No unauthorized use of DHL trademarks is permitted.</li>
-          <li>Copies must include this notice: <strong>Copyright © DHL International GmbH. All Rights Reserved.</strong></li>
+          <li>No unauthorized use of upperships trademarks is permitted.</li>
+          <li>Copies must include this notice: <strong>Copyright © upperships International GmbH. All Rights Reserved.</strong></li>
         </ul>
       </section>
 
       <section>
-        <h3 class="text-2xl font-bold mb-2">DHL Trademarks</h3>
-        <p>The listed trademarks such as 'DHL', 'DHL Express', 'DHL Freight', etc., are the property of DHL International GmbH and may not be copied or used without prior written permission.</p>
+        <h3 class="text-2xl font-bold mb-2">upperships Trademarks</h3>
+        <p>The listed trademarks such as 'upperships', 'upperships Express', 'upperships Freight', etc., are the property of upperships International GmbH and may not be copied or used without prior written permission.</p>
       </section>
 
       <section>
@@ -38,7 +38,7 @@
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Your Comments</h3>
-        <p>DHL welcomes your feedback and may use it, but cannot respond to each comment individually.</p>
+        <p>upperships welcomes your feedback and may use it, but cannot respond to each comment individually.</p>
       </section>
 
       <section>
@@ -48,33 +48,33 @@
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Accuracy of This Site</h3>
-        <p>This site may contain occasional inaccuracies. DHL regularly updates content but does not guarantee it is always accurate or current. Some content may originate outside DHL’s systems.</p>
+        <p>This site may contain occasional inaccuracies. upperships regularly updates content but does not guarantee it is always accurate or current. Some content may originate outside upperships’s systems.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Viruses</h3>
-        <p>DHL takes precautions to prevent viruses but cannot guarantee exclusion. You should use appropriate virus protection before downloading any content.</p>
+        <p>upperships takes precautions to prevent viruses but cannot guarantee exclusion. You should use appropriate virus protection before downloading any content.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Disclaimer of Warranties</h3>
-        <p>The website and services are provided "as is". DHL disclaims all warranties to the fullest extent permitted by law. No content or system use constitutes a warranty.</p>
+        <p>The website and services are provided "as is". upperships disclaims all warranties to the fullest extent permitted by law. No content or system use constitutes a warranty.</p>
         <p>Some consumer rights may still apply based on jurisdiction.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Limitation of Liability</h3>
-        <p>DHL is not liable for indirect or consequential damages. Total liability, where applicable, is limited to EUR 100.00 unless otherwise required by law.</p>
+        <p>upperships is not liable for indirect or consequential damages. Total liability, where applicable, is limited to EUR 100.00 unless otherwise required by law.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Products and Services</h3>
-        <p>DHL's products and services are subject to local terms of carriage. Contact your local DHL office to obtain applicable terms and conditions. Not all services are available in all countries.</p>
+        <p>upperships's products and services are subject to local terms of carriage. Contact your local upperships office to obtain applicable terms and conditions. Not all services are available in all countries.</p>
       </section>
 
       <section>
         <h3 class="text-2xl font-bold mb-2">Disclosure of Information</h3>
-        <p>Information you provide to DHL is treated as confidential and is only disclosed as needed to deliver services.</p>
+        <p>Information you provide to upperships is treated as confidential and is only disclosed as needed to deliver services.</p>
       </section>
     </main>
 

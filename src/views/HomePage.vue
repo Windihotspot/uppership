@@ -15,7 +15,7 @@
       ></div>
 
       <!-- Dark overlay to enhance text visibility -->
-      <div class="absolute inset-0 z-10 bg-black-100"></div>
+      <div class="absolute inset-0 z-10 bg-black/40"></div>
 
       <!-- Content layer -->
       <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
