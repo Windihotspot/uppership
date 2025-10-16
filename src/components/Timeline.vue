@@ -5,18 +5,15 @@
       <div class="text-gray-700 font-medium mb-1">Your shipment</div>
       <div class="text-xs font-semibold mb-6">{{ trackingNumber }}</div>
 
-      <div class="text-xs text-gray-500 mt-4">Receiver's information</div>
-        <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_information }}</div>
+      <div class="text-xs text-gray-500 mt-4">Receiver's Name</div>
+      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_name }}</div>
 
-      <!-- Delivered Info -->
-      <!-- <div v-if="lastEvent" class="flex items-center font-semibold mb-1">
-        <i class="fas fa-check-circle mr-1 text-green-600"></i>
-        Delivered On
-      </div>
+      <div class="text-xs text-gray-500 mt-4">Receiver's Address</div>
+      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_address }}</div>
 
-      <div v-if="lastEvent" class="text-green-600 font-bold text-base mb-4">
-        {{ formatDate(lastEvent.created_at) }}
-      </div> -->
+      <div class="text-xs text-gray-500 mt-4">Receiver's Number</div>
+      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_number }}</div>
+
 
       <div v-if="lastEvent" class="border-t pt-3">
         <div class="text-xs text-gray-500">Current Location</div>
@@ -65,7 +62,6 @@
       </div>
     </div>
   </div>
-  
 </template>
 
 <script setup>
