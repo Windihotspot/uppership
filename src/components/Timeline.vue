@@ -5,6 +5,9 @@
       <div class="text-gray-700 font-medium mb-1">Your shipment</div>
       <div class="text-xs font-semibold mb-6">{{ trackingNumber }}</div>
 
+      <div class="text-xs text-gray-500 mt-4">Receiver's information</div>
+        <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_information }}</div>
+
       <!-- Delivered Info -->
       <!-- <div v-if="lastEvent" class="flex items-center font-semibold mb-1">
         <i class="fas fa-check-circle mr-1 text-green-600"></i>
