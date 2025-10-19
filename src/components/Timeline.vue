@@ -5,15 +5,6 @@
       <div class="text-gray-700 font-medium mb-1">Your shipment</div>
       <div class="text-xs font-semibold mb-6">{{ trackingNumber }}</div>
 
-      <div class="text-xs text-gray-500 mt-4">Receiver's Name</div>
-      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_name }}</div>
-
-      <div class="text-xs text-gray-500 mt-4">Receiver's Address</div>
-      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_address }}</div>
-
-      <div class="text-xs text-gray-500 mt-4">Receiver's Number</div>
-      <div class="text-sm font-semibold text-gray-800 mb-1">{{ lastEvent.receiver_number }}</div>
-
 
       <div v-if="lastEvent" class="border-t pt-3">
         <div class="text-xs text-gray-500">Current Location</div>
@@ -56,7 +47,16 @@
           If you need help, use the
           <a href="#" class="text-blue-600 hover:underline">Virtual Assistant</a>. Still stuck? Try
           our
-          <a href="#" class="text-blue-600 hover:underline">Tracking Support</a>
+         <a
+  href="https://works.do/GnurSRI"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="text-blue-600 hover:underline"
+  @click="console.log('clicked!')"
+>
+  Tracking Support
+</a>
+
           for more specific guidance.
         </p>
       </div>
