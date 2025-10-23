@@ -145,6 +145,23 @@ const getStatusIconClass = (status) => {
   }
 }
 
+const getBase64 = (url) =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      const reader = new FileReader()
+      reader.onloadend = function () {
+        resolve(reader.result)
+      }
+      reader.readAsDataURL(xhr.response)
+    }
+    xhr.onerror = reject
+    xhr.responseType = 'blob'
+    xhr.open('GET', url)
+    xhr.send()
+  })
+
+
 // ✅ PDF generation
 const downloadShipmentPDF = async () => {
   if (!props.events || props.events.length === 0) return
