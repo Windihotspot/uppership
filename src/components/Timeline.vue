@@ -67,6 +67,7 @@
 import { computed, h } from 'vue'
 import { ElTimeline, ElTimelineItem } from 'element-plus'
 import moment from 'moment'
+import logo from '@/assets/uppership.png'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 pdfMake.vfs = pdfFonts.vfs
@@ -153,7 +154,7 @@ const downloadShipmentPDF = async () => {
   const shipment = props.events[0]
 
   // Convert logo to Base64 (for pdfmake)
-  const logoBase64 = await getBase64('/src/assets/uppership.png')
+  const logoBase64 = await getBase64(logo)
 
   // 🧠 Dynamically filter only non-empty fields
   const shipmentDetails = [
