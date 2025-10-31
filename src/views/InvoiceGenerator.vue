@@ -1,7 +1,6 @@
 <template>
-  <v-container class="max-w-2xl mx-auto py-8">
-    <v-card class="pa-6 rounded elevation-1">
-      <v-card-title class="text-h6 font-semibold mb-4">Invoice Details</v-card-title>
+<div class="p-6">
+   <p class="font-semibold mb-4">Invoice Details</p>
 
       <v-form v-model="formValid" ref="formRef" class="space-y-4">
         <v-text-field
@@ -59,8 +58,9 @@
           Generate Invoice
         </v-btn>
       </div>
-    </v-card>
-  </v-container>
+  
+</div>
+     
 </template>
 
 <script setup>
