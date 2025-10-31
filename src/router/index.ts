@@ -100,10 +100,7 @@ const router = createRouter({
       props: true
     }
   ],
-  scrollBehavior(to, from, savedPosition) {
-    // always scroll to top
-    return { top: 0 }
-  }
+
 })
 
 export default router
