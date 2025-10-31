@@ -78,8 +78,12 @@ const router = createRouter({
       name: 'support',
       component: Support
     },
-    
-
+    {
+      path: '/invoice-generate',
+      name: 'invoice-generate',
+      component: InvoiceGenerator,
+    }
+,
     {
       path: '/about',
       name: 'about',
@@ -93,12 +97,7 @@ const router = createRouter({
       component: AddTrack,
       props: true
     },
-    {
-      path: '/invoice',
-      name: 'Invoice',
-      component: InvoiceGenerator,
-      props: true
-    }
+    
   ],
 
 })

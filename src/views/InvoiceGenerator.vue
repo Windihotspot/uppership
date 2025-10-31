@@ -78,7 +78,7 @@ const invoice = ref({
   date: '',
   client: '',
   amount: '',
-  description: '',
+  description: ''
 })
 
 // Example stub for logo base64
@@ -116,7 +116,7 @@ const downloadInvoicePDF = async () => {
         width: pageSize.width * 0.6,
         opacity: 0.06,
         alignment: 'center',
-        margin: [0, pageSize.height * 0.3, 0, 0],
+        margin: [0, pageSize.height * 0.3, 0, 0]
       }
     },
     content: [
@@ -125,12 +125,10 @@ const downloadInvoicePDF = async () => {
           [
             { text: 'Upperships', style: 'companyName' },
             { text: 'Email: upperships@gmail.com', style: 'companyText' },
-            { text: 'Website: upperships.com', style: 'companyText' },
+            { text: 'Website: upperships.com', style: 'companyText' }
           ],
           [
-            logoBase64
-              ? { image: logoBase64, width: 90, alignment: 'right' }
-              : {},
+            logoBase64 ? { image: logoBase64, width: 90, alignment: 'right' } : {},
             {
               table: {
                 widths: ['*'],
@@ -138,15 +136,15 @@ const downloadInvoicePDF = async () => {
                   [
                     {
                       text: `Invoice #: ${invoice.value.number}\nDate: ${invoice.value.date}`,
-                      alignment: 'right',
-                    },
-                  ],
-                ],
+                      alignment: 'right'
+                    }
+                  ]
+                ]
               },
-              layout: 'noBorders',
-            },
-          ],
-        ],
+              layout: 'noBorders'
+            }
+          ]
+        ]
       },
 
       { text: '\n' },
@@ -159,13 +157,13 @@ const downloadInvoicePDF = async () => {
           body: [
             [
               { text: 'Description', bold: true },
-              { text: 'Amount', bold: true, alignment: 'right' },
+              { text: 'Amount', bold: true, alignment: 'right' }
             ],
             [
               { text: invoice.value.description, alignment: 'left' },
-              { text: `₦${Number(invoice.value.amount).toLocaleString()}`, alignment: 'right' },
-            ],
-          ],
+              { text: `₦${Number(invoice.value.amount).toLocaleString()}`, alignment: 'right' }
+            ]
+          ]
         },
         layout: {
           fillColor: (rowIndex) => (rowIndex === 0 ? '#f3f4f6' : null),
@@ -176,8 +174,8 @@ const downloadInvoicePDF = async () => {
           paddingLeft: () => 6,
           paddingRight: () => 6,
           paddingTop: () => 4,
-          paddingBottom: () => 4,
-        },
+          paddingBottom: () => 4
+        }
       },
 
       { text: '\n' },
@@ -193,38 +191,38 @@ const downloadInvoicePDF = async () => {
                   {
                     text: `₦${Number(invoice.value.amount).toLocaleString()}`,
                     bold: true,
-                    alignment: 'right',
-                  },
-                ],
-              ],
+                    alignment: 'right'
+                  }
+                ]
+              ]
             },
-            layout: 'noBorders',
-          },
-        ],
+            layout: 'noBorders'
+          }
+        ]
       },
 
       { text: '\n' },
       { text: 'Payment Information:', bold: true },
       {
         text: 'All payments should be made only through official payment channels provided upon request and confirmation.',
-        margin: [0, 4, 0, 0],
+        margin: [0, 4, 0, 0]
       },
 
       {
         text: '\n\nThank you for your business!',
         italics: true,
         alignment: 'center',
-        color: 'green',
-      },
+        color: 'green'
+      }
     ],
 
     styles: {
       companyName: { fontSize: 14, bold: true, color: '#111827' },
       companyText: { fontSize: 10, color: '#374151' },
-      sectionHeader: { fontSize: 12, bold: true, color: '#111827' },
+      sectionHeader: { fontSize: 12, bold: true, color: '#111827' }
     },
     defaultStyle: { fontSize: 10, color: '#374151' },
-    pageMargins: [40, 40, 40, 40],
+    pageMargins: [40, 40, 40, 40]
   }
 
   pdfMake.createPdf(docDefinition).download(`Invoice_${invoice.value.number}.pdf`)
@@ -244,7 +242,7 @@ const generateInvoice = () => {
 </script>
 
 <style scoped>
-    .v-btn{
-        text-transform: none;
-    }
+.v-btn {
+  text-transform: none;
+}
 </style>
