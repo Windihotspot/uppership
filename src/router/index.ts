@@ -13,6 +13,7 @@ import LegalNotice from '@/views/LegalNotice.vue'
 import TermsOfUse from '@/views/TermsOfUse.vue'
 import Privacy from '@/views/Privacy.vue'
 import Support from '@/views/Support.vue'
+import InvoiceGenerator from '@/views/InvoiceGenerator.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -90,6 +91,12 @@ const router = createRouter({
       path: '/addshipment',
       name: 'AddTrack',
       component: AddTrack,
+      props: true
+    },
+    {
+      path: '/invoice',
+      name: 'Invoice',
+      component: InvoiceGenerator,
       props: true
     }
   ],

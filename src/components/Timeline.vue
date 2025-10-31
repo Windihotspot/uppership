@@ -37,15 +37,31 @@
     </div>
 
     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
-      <p @click="downloadShipmentPDF" class="text-blue-600 text-sm font-medium mb-2 cursor-pointer hover:underline">
+      <button
+        @click="downloadInvoicePDF"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+      >
+        Download Invoice PDF
+      </button>
+      <button
+        @click="downloadCBSAReceiptPDF"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+      >
+        Download customs
+      </button>
+      <p
+        @click="downloadShipmentPDF"
+        class="text-blue-600 text-sm font-medium mb-2 cursor-pointer hover:underline"
+      >
         View All Shipping Details
       </p>
       <div class="border-2 border-blue-300 rounded-md p-3">
         <h2 class="font-semibold text-gray-800 mb-1">Get Answers Fast</h2>
         <p class="text-sm text-gray-700">
           If you need help, use the
-          <a href="https://works.do/GnurSRI" class="text-blue-600 hover:underline">Virtual Assistant</a>. Still stuck? Try
-          our
+          <a href="https://works.do/GnurSRI" class="text-blue-600 hover:underline"
+            >Virtual Assistant</a
+          >. Still stuck? Try our
           <a
             href="https://works.do/GnurSRI"
             target="_blank"
@@ -64,10 +80,11 @@
 </template>
 
 <script setup>
-import { computed, h } from 'vue'
+import { computed, h, ref } from 'vue'
 import { ElTimeline, ElTimelineItem } from 'element-plus'
 import moment from 'moment'
 import logo from '@/assets/uppership.png'
+import canadaLogo from '@/assets/canada.png'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 pdfMake.vfs = pdfFonts.vfs
@@ -145,7 +162,6 @@ const getStatusIconClass = (status) => {
       return 'fas fa-check-circle'
   }
 }
-
 // ✅ PDF generation
 const downloadShipmentPDF = async () => {
   if (!props.events || props.events.length === 0) return
@@ -258,7 +274,6 @@ const downloadShipmentPDF = async () => {
   pdfMake.createPdf(docDefinition).download(`Shipment_${shipment.tracking_number || 'details'}.pdf`)
 }
 
-
 // ✅ Helper: convert logo file to Base64
 const getBase64 = (url) =>
   new Promise((resolve, reject) => {
@@ -276,8 +291,403 @@ const getBase64 = (url) =>
     xhr.send()
   })
 
-// ✅ Status icons
+// Invoice reactive data (pre-filled; you can update programmatically)
+const invoice = ref({
+  invoiceNumber: 'INV-2025-33286',
+  dateIssued: moment().format('MMMM D, YYYY'), // e.g., October 27, 2025
+  dueDate: moment().add(2, 'days').format('MMMM D, YYYY'), // e.g., +7 days
+  billedTo: {
+    name: props.events[0]?.receiver_name || '[Customer/Recipient Name]',
+    address: props.events[0]?.receiver_address || '[Customer Address]',
+    city: props.events[0]?.receiver_city || 'Ontario, Canada',
+    phone: props.events[0]?.receiver_number || '[Phone Number]'
+  },
+  items: [
+    { description: 'Customs Processing Fee', quantity: 1, unitCost: 100.0 },
+    { description: 'Handling and Delivery Fee', quantity: 1, unitCost: 45.0 },
+    { description: 'Import Duty & Taxes', quantity: 1, unitCost: 5.0 }
+  ],
 
+  taxRate: 0.05,
+  get subtotal() {
+    return this.items.reduce((s, it) => s + it.quantity * it.unitCost, 0)
+  },
+  get tax() {
+    return this.subtotal * this.taxRate
+  },
+  get total() {
+    return this.subtotal + this.tax
+  }
+})
+
+// PDF generation for invoice
+const downloadInvoicePDF = async () => {
+  // use existing logo helper; fallback to null if unavailable
+  let logoBase64 = null
+  try {
+    logoBase64 = await getBase64(logo)
+  } catch (e) {
+    // ignore; logo optional
+  }
+
+  const rows = [
+    [
+      { text: 'Description', bold: true },
+      { text: 'Quantity', bold: true, alignment: 'center' },
+      { text: 'Unit Cost', bold: true, alignment: 'right' },
+      { text: 'Total', bold: true, alignment: 'right' }
+    ],
+    ...invoice.value.items.map((it) => [
+      { text: it.description, alignment: 'left' },
+      { text: String(it.quantity), alignment: 'center' },
+      { text: `$${it.unitCost.toFixed(2)}`, alignment: 'right' },
+      { text: `$${(it.quantity * it.unitCost).toFixed(2)}`, alignment: 'right' }
+    ])
+  ]
+
+  const docDefinition = {
+    background: (currentPage, pageSize) => {
+      if (!logoBase64) return null
+      return {
+        image: logoBase64,
+        width: pageSize.width * 0.6,
+        opacity: 0.06,
+        alignment: 'center',
+        margin: [0, pageSize.height * 0.3, 0, 0]
+      }
+    },
+    content: [
+      {
+        columns: [
+          [
+            { text: 'Upperships', style: 'companyName' },
+            { text: 'Email: upperships@gmail.com', style: 'companyText' },
+            { text: 'Website: upperships@gmail.com', style: 'companyText' }
+          ],
+          [
+            logoBase64 ? { image: logoBase64, width: 90, alignment: 'right' } : {},
+            {
+              text: '',
+              margin: [0, 0, 0, 0]
+            },
+            {
+              table: {
+                widths: ['*'],
+                body: [
+                  [
+                    {
+                      text: `Invoice Number: ${invoice.value.invoiceNumber}\nDate Issued: ${invoice.value.dateIssued}\nDue Date: ${invoice.value.dueDate}`,
+                      alignment: 'right'
+                    }
+                  ]
+                ]
+              },
+              layout: 'noBorders'
+            }
+          ]
+        ]
+      },
+
+      { text: '\n' },
+
+      { text: 'Billed To:', bold: true },
+      {
+        text: `${invoice.value.billedTo.name}\n${invoice.value.billedTo.address}\n${invoice.value.billedTo.city}\nPhone: ${invoice.value.billedTo.phone}`,
+        margin: [0, 4, 0, 10]
+      },
+
+      { text: 'Shipment Details', style: 'sectionHeader', margin: [0, 6, 0, 6] },
+
+      {
+        table: {
+          widths: ['*', 'auto', 'auto', 'auto'],
+          body: rows
+        },
+        layout: {
+          fillColor: (rowIndex) => (rowIndex === 0 ? '#f3f4f6' : null),
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+          hLineColor: () => '#e5e7eb',
+          vLineColor: () => '#e5e7eb',
+          paddingLeft: () => 6,
+          paddingRight: () => 6,
+          paddingTop: () => 4,
+          paddingBottom: () => 4
+        }
+      },
+
+      { text: '\n' },
+
+      {
+        columns: [
+          { width: '*', text: '' },
+          {
+            width: 'auto',
+            table: {
+              body: [
+                [
+                  'Subtotal:',
+                  { text: `$${invoice.value.subtotal.toFixed(2)}`, alignment: 'right' }
+                ],
+                [
+                  `VAT (${(invoice.value.taxRate * 100).toFixed(0)}%):`,
+                  { text: `$${invoice.value.tax.toFixed(2)}`, alignment: 'right' }
+                ],
+                [
+                  { text: 'Total Amount Due:', bold: true },
+                  { text: `$${invoice.value.total.toFixed(2)}`, bold: true, alignment: 'right' }
+                ]
+              ]
+            },
+            layout: 'noBorders'
+          }
+        ]
+      },
+
+      { text: '\n' },
+
+      { text: 'Payment Information:', bold: true },
+      {
+        text: 'All payments should be made only through official payment channels provided upon request and confirmation',
+        margin: [0, 4, 0, 0]
+      },
+
+      {
+        text: '\n\nThank you for your business!',
+        italics: true,
+        alignment: 'center',
+        color: 'green'
+      }
+    ],
+
+    styles: {
+      companyName: { fontSize: 14, bold: true, color: '#111827' },
+      companyText: { fontSize: 10, color: '#374151' },
+      sectionHeader: { fontSize: 12, bold: true, color: '#111827' }
+    },
+
+    defaultStyle: {
+      fontSize: 10,
+      color: '#374151'
+    },
+
+    pageMargins: [40, 40, 40, 40]
+  }
+
+  pdfMake.createPdf(docDefinition).download(`Invoice_${invoice.value.invoiceNumber}.pdf`)
+}
+
+const downloadCBSAReceiptPDF = async () => {
+  if (!props.events || props.events.length === 0) return
+
+  const shipment = props.events[0]
+  const logoBase64 = await getBase64(canadaLogo)
+
+  // Randomized but realistic CBSA receipt values
+  const randomReceiptNumber = 'B3-' + Math.floor(100000 + Math.random() * 900000)
+  const referenceNumber = 'REF-' + Math.floor(10000 + Math.random() * 90000)
+  const portCode = 'TOR'
+  const importerCode = 'IM' + Math.floor(1000 + Math.random() * 9000)
+  // Generate random proportions that will always sum to 100
+  const dutyRatio = Math.random() * 0.5 + 0.3 // 30%–80% of total
+  const freightRatio = Math.random() * (1 - dutyRatio - 0.05) + 0.05 // 5%–remaining
+  const gstRatio = 1 - (dutyRatio + freightRatio) // whatever remains
+
+  // Now calculate each amount based on total = 100
+  const totalAmount = 100.0
+  const dutyAmount = (totalAmount * dutyRatio).toFixed(2)
+  const freightAmount = (totalAmount * freightRatio).toFixed(2)
+  const gstAmount = (totalAmount * gstRatio).toFixed(2)
+
+  const officerNames = ['Damien Smith', 'Karoline Johnson', 'Leonard Patel', 'Miles Brown']
+  const officerName = officerNames[Math.floor(Math.random() * officerNames.length)]
+
+  const docDefinition = {
+    pageMargins: [35, 35, 35, 45],
+    defaultStyle: {
+      fontSize: 12,
+      color: '#111827'
+    },
+    content: [
+      // 🇨🇦 Header
+      {
+        columns: [
+          { image: logoBase64, width: 70 },
+          {
+            stack: [
+              {
+                text: 'CANADA BORDER SERVICES AGENCY / AGENCE DES SERVICES FRONTALIERS DU CANADA',
+                alignment: 'center',
+                bold: true,
+                fontSize: 9
+              },
+              {
+                text: 'B3 - CUSTOMS CODING FORM / FORMULE DE CODAGE DES DOUANES',
+                alignment: 'center',
+                fontSize: 9,
+                margin: [0, 2, 0, 0]
+              }
+            ],
+            width: '*'
+          },
+          {
+            stack: [
+              { text: `No. ${randomReceiptNumber}`, bold: true, alignment: 'right', fontSize: 9 },
+              {
+                text: `Date: ${moment('2025-10-22').format('MMM D, YYYY')}`,
+                alignment: 'right',
+                fontSize: 9
+              }
+            ],
+            width: 'auto'
+          }
+        ]
+      },
+
+      { text: ' ', margin: [0, 5] },
+
+      // Top Reference Fields
+      {
+        table: {
+          widths: ['33%', '33%', '34%'],
+          body: [
+            [
+              {
+                text: `Reference No. / Référence:\n${referenceNumber}`,
+                border: [true, true, true, true],
+                margin: [4, 4, 0, 4]
+              },
+              {
+                text: `Port Code / Code du Port:\n${portCode}`,
+                border: [true, true, true, true],
+                margin: [4, 4, 0, 4]
+              },
+              {
+                text: `Importer Code / Code Importateur:\n${importerCode}`,
+                border: [true, true, true, true],
+                margin: [4, 4, 0, 4]
+              }
+            ]
+          ]
+        },
+        layout: 'noBorders'
+      },
+
+      { text: ' ', margin: [0, 6] },
+
+      // Importer / Shipment Info Section
+      {
+        table: {
+          widths: ['30%', '70%'],
+          body: [
+            [{ text: 'Importer / Importateur', bold: true }, shipment.receiver_name || '-'],
+            [{ text: 'Address / Adresse', bold: true }, shipment.receiver_address || '-'],
+            [{ text: 'Phone / Téléphone', bold: true }, shipment.receiver_number || '-'],
+            [{ text: 'Shipper / Expéditeur', bold: true }, shipment.sender_name || '-'],
+            [
+              { text: 'Origin Country / Pays d’Origine', bold: true },
+              shipment.sender_address || '—'
+            ],
+            [
+              { text: 'Tracking Number / Numéro de Suivi', bold: true },
+              shipment.tracking_number || '-'
+            ]
+          ]
+        },
+        layout: {
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+          hLineColor: () => '#d1d5db',
+          vLineColor: () => '#d1d5db',
+          paddingLeft: () => 6,
+          paddingRight: () => 6,
+          paddingTop: () => 8, // ⬆️ increase for more height
+          paddingBottom: () => 8 // ⬇️ increase for more height
+        }
+      },
+
+      { text: '\n', margin: [0, 6] },
+
+      // Customs Charges
+      {
+        table: {
+          widths: ['40%', '30%', '30%'],
+          body: [
+            [
+              { text: 'Description / Description', bold: true },
+              { text: 'Rate / Taux', bold: true },
+              { text: 'Amount (CAD) / Montant', bold: true }
+            ],
+            ['Customs Duty / Droits de Douane', '—', `$${dutyAmount}`],
+            ['GST / TPS (5%)', '5%', `$${gstAmount}`],
+            ['Freight / Fret', '—', `$${freightAmount}`],
+            [{ text: 'TOTAL / TOTAL', bold: true }, '', { text: `$${totalAmount}`, bold: true }]
+          ]
+        },
+        layout: {
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+          hLineColor: () => '#d1d5db',
+          vLineColor: () => '#d1d5db',
+          paddingLeft: () => 6,
+          paddingRight: () => 6,
+          paddingTop: () => 8, // ⬆️ increase for more height
+          paddingBottom: () => 8 // ⬇️ increase for more height
+        }
+      },
+
+      { text: '\n' },
+
+      // Declaration Box
+      {
+        table: {
+          widths: ['*'],
+          body: [
+            [
+              {
+                text:
+                  'DECLARATION / DÉCLARATION\nI hereby declare that the particulars on this form are true and correct, ' +
+                  'and that all applicable duties and taxes are payable under the Customs Act and Regulations.\n' +
+                  'Je déclare par la présente que les renseignements fournis sont exacts et conformes aux règlements en vigueur.',
+                margin: [5, 6, 5, 6]
+              }
+            ]
+          ]
+        },
+        layout: {
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+          hLineColor: () => '#9ca3af',
+          vLineColor: () => '#9ca3af'
+        }
+      },
+
+      { text: ' ', margin: [0, 6] },
+
+      // Officer Signature
+      {
+        columns: [
+          { text: `CBSA Officer / Agent ASFC: ${officerName}`, width: '50%' },
+          { text: 'Signature: ______________________', alignment: 'right', width: '50%' }
+        ]
+      },
+
+      { text: '\n\n', margin: [0, 10] },
+
+      // ✅ Thank you note
+      {
+        text: 'www.csba.gc.ga',
+        alignment: 'center',
+        bold: true,
+        fontSize: 18
+      }
+    ]
+  }
+
+  pdfMake
+    .createPdf(docDefinition)
+    .download(`CBSA_Receipt_${shipment.tracking_number || 'details'}.pdf`)
+}
 </script>
 
 <style scoped>
