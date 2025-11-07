@@ -37,18 +37,7 @@
     </div>
 
     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
-      <button
-        @click="downloadInvoicePDF"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
-      >
-        Download Invoice PDF
-      </button>
-      <button
-        @click="downloadCBSAReceiptPDF"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
-      >
-        Download customs
-      </button>
+    
       <p
         @click="downloadShipmentPDF"
         class="text-blue-600 text-sm font-medium mb-2 cursor-pointer hover:underline"
