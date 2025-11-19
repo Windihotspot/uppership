@@ -1,31 +1,32 @@
 <template>
   <div class="max-w-4xl mx-auto p-6">
-
     <div class="max-w-xl mx-auto p-4">
-  <v-text-field
-  variant="outlined"
-  color="primary"
-    v-model="searchTracking"
-    label="Enter Tracking Number"
-    placeholder="e.g. UPS123456789"
-    clearable
-  ></v-text-field>
+      <v-text-field
+        variant="outlined"
+        color="primary"
+        v-model="searchTracking"
+        label="Enter Tracking Number"
+        placeholder="e.g. UPS123456789"
+        clearable
+      ></v-text-field>
 
-  <v-btn color="blue" class="text-white mb-4" @click="fetchShipment">
-    Search Shipment
-  </v-btn>
-</div>
+      <v-btn color="blue" class="text-white mb-4" @click="fetchShipment"> Search Shipment </v-btn>
+    </div>
 
     <!-- Page header -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-semibold text-gray-800">
-        Edit Invoice
-      </h1>
+      <h1 class="text-2xl font-semibold text-gray-800">Edit Invoice</h1>
 
-      <v-btn color="blue" @click="generatePDF" class="text-white">
-        Download Invoice
-      </v-btn>
+      <v-btn color="blue" @click="generatePDF" class="text-white"> Download Invoice </v-btn>
     </div>
+
+    <v-text-field
+      v-model="invoice.currency"
+      label="Currency Symbol"
+      placeholder="$"
+      variant="outlined"
+      class="mb-4"
+    />
 
     <!-- Invoice Card -->
     <div class="bg-white rounded-xl shadow p-6">
@@ -114,7 +115,7 @@
 
             <div class="flex items-center justify-between">
               <p class="text-gray-800 font-semibold">
-                ${{ (item.quantity * item.unitCost).toFixed(2) }}
+                {{ invoice.currency }}{{ (item.quantity * item.unitCost).toFixed(2) }}
               </p>
 
               <v-btn
@@ -128,12 +129,7 @@
         </div>
       </div>
 
-      <v-btn
-        color="green"
-        variant="tonal"
-        @click="addItem"
-        class="mb-8 text-white"
-      >
+      <v-btn color="green" variant="tonal" @click="addItem" class="mb-8 text-white">
         + Add Item
       </v-btn>
 
@@ -141,130 +137,127 @@
       <div class="bg-gray-100 p-4 rounded-lg">
         <div class="flex justify-between text-sm mb-2">
           <span>Subtotal:</span>
-          <span class="font-semibold">${{ subtotal.toFixed(2) }}</span>
+          <span class="font-semibold">{{ invoice.currency }}{{ subtotal.toFixed(2) }}</span>
         </div>
 
         <div class="flex justify-between text-sm mb-2">
           <span>Tax ({{ (taxRate * 100).toFixed(0) }}%):</span>
-          <span class="font-semibold">${{ tax.toFixed(2) }}</span>
+          <span class="font-semibold">{{ invoice.currency }}{{ tax.toFixed(2) }}</span>
         </div>
 
         <div class="flex justify-between text-lg border-t pt-3">
           <span class="font-semibold">Total:</span>
-          <span class="font-bold text-gray-900">${{ total.toFixed(2) }}</span>
+          <span class="font-bold text-gray-900">{{ invoice.currency }}{{ total.toFixed(2) }}</span>
         </div>
       </div>
 
       <!-- Save Button -->
       <div class="flex justify-end mt-6">
-        <v-btn color="blue" class="text-white px-6" @click="saveInvoice">
-          Save Changes
-        </v-btn>
+        <v-btn color="blue" class="text-white px-6" @click="saveInvoice"> Save Changes </v-btn>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, computed, ref } from "vue";
-import moment from "moment";
-import { supabase } from "@/supabase"; // your supabase client
-import { ElLoading, ElMessage } from "element-plus";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.vfs;
+import { reactive, computed, ref } from 'vue'
+import moment from 'moment'
+import { supabase } from '@/supabase' // your supabase client
+import { ElLoading, ElMessage } from 'element-plus'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+pdfMake.vfs = pdfFonts.vfs
 import logo from '@/assets/uppership.png'
 
 // Optional logo helper
 const getBase64 = async (file) => {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-};
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
+}
 
-const searchTracking = ref("");
-const loading = ref(false);
+const searchTracking = ref('')
+const loading = ref(false)
 
 // These replace props when searching manually
-const shipmentEvents = ref([]);
+const shipmentEvents = ref([])
 
 const fetchShipment = async () => {
-  if (!searchTracking.value) return;
+  if (!searchTracking.value) return
 
-  loading.value = true;
+  loading.value = true
 
   // Show Element Plus loading
   const loadingInstance = ElLoading.service({
     lock: true,
-    text: "Searching shipment...",
-    background: "rgba(0, 0, 0, 0.3)",
-  });
+    text: 'Searching shipment...',
+    background: 'rgba(0, 0, 0, 0.3)'
+  })
 
   try {
     const { data, error } = await supabase
-      .from("trackings")
-      .select("*")
-      .eq("tracking_number", searchTracking.value)
-      .order("created_at", { ascending: true });
+      .from('trackings')
+      .select('*')
+      .eq('tracking_number', searchTracking.value)
+      .order('created_at', { ascending: true })
 
-    if (error) throw error;
+    if (error) throw error
 
     if (!data || data.length === 0) {
-      alert("No shipment found for that tracking number.");
-      return;
+      alert('No shipment found for that tracking number.')
+      return
     }
 
-    console.log("Shipment data:", data);
+    console.log('Shipment data:', data)
 
     // Take the first (oldest) event for invoice info
-    const shipment = data[0];
+    const shipment = data[0]
 
     // -----------------------
     // Autofill invoice fields
     // -----------------------
     invoice.invoiceNumber = shipment.tracking_number
       ? `INV-${shipment.tracking_number}`
-      : "INV-UNKNOWN";
+      : 'INV-UNKNOWN'
 
     invoice.dateIssued = shipment.created_at
-      ? moment(shipment.created_at).format("YYYY-MM-DD")
-      : moment().format("YYYY-MM-DD");
+      ? moment(shipment.created_at).format('YYYY-MM-DD')
+      : moment().format('YYYY-MM-DD')
 
     invoice.dueDate = shipment.created_at
-      ? moment(shipment.created_at).add(2, "days").format("YYYY-MM-DD")
-      : moment().add(2, "days").format("YYYY-MM-DD");
+      ? moment(shipment.created_at).add(2, 'days').format('YYYY-MM-DD')
+      : moment().add(2, 'days').format('YYYY-MM-DD')
 
-    invoice.billedTo.name = shipment.receiver_name || "Unknown Receiver";
-    invoice.billedTo.address = shipment.receiver_address || "Address Not Provided";
-    invoice.billedTo.city = ""; // Optional
-    invoice.billedTo.phone = shipment.receiver_number || "";
+    invoice.billedTo.name = shipment.receiver_name || 'Unknown Receiver'
+    invoice.billedTo.address = shipment.receiver_address || 'Address Not Provided'
+    invoice.billedTo.city = '' // Optional
+    invoice.billedTo.phone = shipment.receiver_number || ''
 
     // -----------------------
     // Default invoice items (can later pull from shipment if linked)
     // -----------------------
     invoice.items = [
-      { description: "Handling and Delivery Fee", quantity: 1, unitCost: 0 },
-      { description: "Import Duty & Taxes", quantity: 1, unitCost: 0 },
-    ];
+      { description: 'Handling and Delivery Fee', quantity: 1, unitCost: 0 },
+      { description: 'Import Duty & Taxes', quantity: 1, unitCost: 0 }
+    ]
 
-    console.log("Invoice autofilled from shipment:", invoice);
+    console.log('Invoice autofilled from shipment:', invoice)
   } catch (err) {
-    console.error("Error fetching shipment:", err);
-    alert("Failed to fetch shipment. Check console for details.");
+    console.error('Error fetching shipment:', err)
+    alert('Failed to fetch shipment. Check console for details.')
   } finally {
-    loadingInstance.close(); // close loading
+    loadingInstance.close() // close loading
   }
-};
-
+}
 
 const downloadInvoicePDF = async () => {
   // Convert logo to Base64 (optional)
-  let logoBase64 = null;
+  let logoBase64 = null
   try {
-    logoBase64 = await getBase64(logo);
+    logoBase64 = await getBase64(logo)
   } catch (e) {
     // Logo is optional, ignore errors
   }
@@ -280,21 +273,31 @@ const downloadInvoicePDF = async () => {
     ...invoice.items.map((it) => [
       { text: it.description, alignment: 'left' },
       { text: String(it.quantity), alignment: 'center' },
-      { text: `$${it.unitCost.toFixed(2)}`, alignment: 'right' },
-      { text: `$${(it.quantity * it.unitCost).toFixed(2)}`, alignment: 'right' }
-    ])
-  ];
+      { text: `${invoice.currency}${it.unitCost.toFixed(2)}`, alignment: 'right' },
+      { text: `${invoice.currency}${(it.quantity * it.unitCost).toFixed(2)}`, alignment: 'right' }
+    ])[
+      ('Subtotal:', { text: `${invoice.currency}${subtotal.value.toFixed(2)}`, alignment: 'right' })
+    ]
+    [
+      `VAT (${(invoice.taxRate * 100).toFixed(0)}%):`,
+      { text: `${invoice.currency}${tax.value.toFixed(2)}`, alignment: 'right' }
+    ],
+    [
+      { text: 'Total Amount Due:', bold: true },
+      { text: `${invoice.currency}${total.value.toFixed(2)}`, bold: true, alignment: 'right' }
+    ]
+  ]
 
   const docDefinition = {
     background: (currentPage, pageSize) => {
-      if (!logoBase64) return null;
+      if (!logoBase64) return null
       return {
         image: logoBase64,
         width: pageSize.width * 0.6,
         opacity: 0.06,
         alignment: 'center',
         margin: [0, pageSize.height * 0.3, 0, 0]
-      };
+      }
     },
     content: [
       {
@@ -362,10 +365,7 @@ const downloadInvoicePDF = async () => {
             width: 'auto',
             table: {
               body: [
-                [
-                  'Subtotal:',
-                  { text: `$${subtotal.value.toFixed(2)}`, alignment: 'right' }
-                ],
+                ['Subtotal:', { text: `$${subtotal.value.toFixed(2)}`, alignment: 'right' }],
                 [
                   `VAT (${(invoice.taxRate * 100).toFixed(0)}%):`,
                   { text: `$${tax.value.toFixed(2)}`, alignment: 'right' }
@@ -409,70 +409,64 @@ const downloadInvoicePDF = async () => {
     },
 
     pageMargins: [40, 40, 40, 40]
-  };
+  }
 
-  pdfMake.createPdf(docDefinition).download(`Invoice_${invoice.invoiceNumber}.pdf`);
-};
-
+  pdfMake.createPdf(docDefinition).download(`Invoice_${invoice.invoiceNumber}.pdf`)
+}
 
 const generatePDF = async () => {
-  await downloadInvoicePDF();
-};
-
-
+  await downloadInvoicePDF()
+}
 
 // -------------------------------
 //  INVOICE DATA (editable)
 // -------------------------------
 const invoice = reactive({
-  invoiceNumber: "INV-2025-",
-  dateIssued: moment().format("YYYY-MM-DD"),
-  dueDate: moment().add(2, "days").format("YYYY-MM-DD"),
-
+  invoiceNumber: 'INV-2025-',
+  dateIssued: moment().format('YYYY-MM-DD'),
+  dueDate: moment().add(2, 'days').format('YYYY-MM-DD'),
+  currency: '$',
   billedTo: {
-    name: "",
-    address: "",
-    city: "",
-    phone: "",
+    name: '',
+    address: '',
+    city: '',
+    phone: ''
   },
 
   items: [
-    { description: "Handling and Delivery Fee", quantity: 0, unitCost: 0 },
-    { description: "Import Duty & Taxes", quantity: 0, unitCost: 0 },
+    { description: 'Handling and Delivery Fee', quantity: 0, unitCost: 0 },
+    { description: 'Import Duty & Taxes', quantity: 0, unitCost: 0 }
   ],
 
-  taxRate: 0.05,
-});
+  taxRate: 0.05
+})
 
 // Computed totals
-const subtotal = computed(() =>
-  invoice.items.reduce((s, it) => s + it.quantity * it.unitCost, 0)
-);
+const subtotal = computed(() => invoice.items.reduce((s, it) => s + it.quantity * it.unitCost, 0))
 
-const taxRate = computed(() => invoice.taxRate);
-const tax = computed(() => subtotal.value * taxRate.value);
-const total = computed(() => subtotal.value + tax.value);
+const taxRate = computed(() => invoice.taxRate)
+const tax = computed(() => subtotal.value * taxRate.value)
+const total = computed(() => subtotal.value + tax.value)
 
 // Add item
 const addItem = () => {
   invoice.items.push({
-    description: "",
+    description: '',
     quantity: 1,
-    unitCost: 0,
-  });
-};
+    unitCost: 0
+  })
+}
 
 // Remove item
 const removeItem = (index) => {
-  invoice.items.splice(index, 1);
-};
+  invoice.items.splice(index, 1)
+}
 
 // Save action (send to backend)
 const saveInvoice = () => {
-  console.log("Saving invoice...", JSON.parse(JSON.stringify(invoice)));
+  console.log('Saving invoice...', JSON.parse(JSON.stringify(invoice)))
   // axios.post('/api/update-invoice', invoice)
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
