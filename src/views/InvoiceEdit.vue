@@ -425,7 +425,7 @@ const generatePDF = async () => {
 //  INVOICE DATA (editable)
 // -------------------------------
 const invoice = reactive({
-  invoiceNumber: "INV-2025-33286",
+  invoiceNumber: "INV-2025-",
   dateIssued: moment().format("YYYY-MM-DD"),
   dueDate: moment().add(2, "days").format("YYYY-MM-DD"),
 
