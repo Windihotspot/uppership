@@ -118,12 +118,11 @@
                 {{ invoice.currency }}{{ (item.quantity * item.unitCost).toFixed(2) }}
               </p>
 
-              <v-btn
-                icon="mdi-delete"
-                color="red"
-                variant="text"
+              <i
+                class="fa fa-trash text-red-500 cursor-pointer"
                 @click="removeItem(index)"
-              ></v-btn>
+                title="Remove item"
+              ></i>
             </div>
           </div>
         </div>
@@ -253,16 +252,37 @@ const fetchShipment = async () => {
   }
 }
 
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD', // optional: could dynamically use invoice.currency
+    minimumFractionDigits: 2
+  }).format(amount)
+}
+
 const downloadInvoicePDF = async () => {
-  // Convert logo to Base64 (optional)
+  // Convert logo to Base64 from URL
   let logoBase64 = null
   try {
-    logoBase64 = await getBase64(logo)
+    const res = await fetch(logo)
+    const blob = await res.blob()
+    logoBase64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(blob)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (err) => reject(err)
+    })
   } catch (e) {
-    // Logo is optional, ignore errors
+    console.warn('Logo conversion failed, skipping logo.')
   }
 
-  // Prepare table rows for invoice items
+  const itemRows = invoice.items.map((it) => [
+    { text: it.description, alignment: 'left' },
+    { text: String(it.quantity), alignment: 'center' },
+    { text: formatCurrency(it.unitCost), alignment: 'right' },
+    { text: formatCurrency(it.quantity * it.unitCost), alignment: 'right' }
+  ])
+
   const rows = [
     [
       { text: 'Description', bold: true },
@@ -270,22 +290,7 @@ const downloadInvoicePDF = async () => {
       { text: 'Unit Cost', bold: true, alignment: 'right' },
       { text: 'Total', bold: true, alignment: 'right' }
     ],
-    ...invoice.items.map((it) => [
-      { text: it.description, alignment: 'left' },
-      { text: String(it.quantity), alignment: 'center' },
-      { text: `${invoice.currency}${it.unitCost.toFixed(2)}`, alignment: 'right' },
-      { text: `${invoice.currency}${(it.quantity * it.unitCost).toFixed(2)}`, alignment: 'right' }
-    ])[
-      ('Subtotal:', { text: `${invoice.currency}${subtotal.value.toFixed(2)}`, alignment: 'right' })
-    ]
-    [
-      `VAT (${(invoice.taxRate * 100).toFixed(0)}%):`,
-      { text: `${invoice.currency}${tax.value.toFixed(2)}`, alignment: 'right' }
-    ],
-    [
-      { text: 'Total Amount Due:', bold: true },
-      { text: `${invoice.currency}${total.value.toFixed(2)}`, bold: true, alignment: 'right' }
-    ]
+    ...itemRows
   ]
 
   const docDefinition = {
@@ -309,7 +314,6 @@ const downloadInvoicePDF = async () => {
           ],
           [
             logoBase64 ? { image: logoBase64, width: 90, alignment: 'right' } : {},
-            { text: '', margin: [0, 0, 0, 0] },
             {
               table: {
                 widths: ['*'],
@@ -336,7 +340,7 @@ const downloadInvoicePDF = async () => {
         margin: [0, 4, 0, 10]
       },
 
-      { text: 'Shipment Details', style: 'sectionHeader', margin: [0, 6, 0, 6] },
+      { text: 'Invoice Items', style: 'sectionHeader', margin: [0, 6, 0, 6] },
 
       {
         table: {
@@ -358,6 +362,7 @@ const downloadInvoicePDF = async () => {
 
       { text: '\n' },
 
+      // Totals section
       {
         columns: [
           { width: '*', text: '' },
@@ -365,14 +370,14 @@ const downloadInvoicePDF = async () => {
             width: 'auto',
             table: {
               body: [
-                ['Subtotal:', { text: `$${subtotal.value.toFixed(2)}`, alignment: 'right' }],
+                ['Subtotal:', { text: formatCurrency(subtotal.value), alignment: 'right' }],
                 [
                   `VAT (${(invoice.taxRate * 100).toFixed(0)}%):`,
-                  { text: `$${tax.value.toFixed(2)}`, alignment: 'right' }
+                  { text: formatCurrency(tax.value), alignment: 'right' }
                 ],
                 [
                   { text: 'Total Amount Due:', bold: true },
-                  { text: `$${total.value.toFixed(2)}`, bold: true, alignment: 'right' }
+                  { text: formatCurrency(total.value), bold: true, alignment: 'right' }
                 ]
               ]
             },
