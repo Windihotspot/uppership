@@ -36,10 +36,10 @@
       </div>
     </div>
 
-    <div class="flex justify-between gap-4">
+    <!-- <div class="flex justify-between gap-4">
         <v-btn color="blue" class="mx-2 btn p-2" variant="text"> Invoice </v-btn>
         <v-btn color="blue" class="mx-2 btn p-2" variant="text"> Customs </v-btn>
-    </div>
+    </div> -->
 
     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
     
