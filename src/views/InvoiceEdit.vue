@@ -246,8 +246,8 @@ const fetchShipment = async () => {
     // Default invoice items (can later pull from shipment if linked)
     // -----------------------
     invoice.items = [
-      { description: "Handling and Delivery Fee", quantity: 1, unitCost: 45 },
-      { description: "Import Duty & Taxes", quantity: 1, unitCost: 5 },
+      { description: "Handling and Delivery Fee", quantity: 1, unitCost: 0 },
+      { description: "Import Duty & Taxes", quantity: 1, unitCost: 0 },
     ];
 
     console.log("Invoice autofilled from shipment:", invoice);
