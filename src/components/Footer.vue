@@ -41,6 +41,7 @@
         <h3 class="text-black font-semibold mb-2">Company Information</h3>
         <ul class="space-y-1">
           <li><router-link to="/" class="hover:underline">About uppership</router-link></li>
+          <li><router-link to="/invoice-edit" class="hover:underline">Admin</router-link></li>
           <li>
             <router-link to="/" class="hover:underline"
               >Delivered <span aria-hidden="true">↗</span></router-link
