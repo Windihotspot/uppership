@@ -14,6 +14,7 @@ import TermsOfUse from '@/views/TermsOfUse.vue'
 import Privacy from '@/views/Privacy.vue'
 import Support from '@/views/Support.vue'
 import InvoiceGenerator from '@/views/InvoiceGenerator.vue'
+import InvoiceEdit from '@/views/InvoiceEdit.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -82,6 +83,11 @@ const router = createRouter({
       path: '/invoice-generate',
       name: 'invoice-generate',
       component: InvoiceGenerator,
+    },
+    {
+      path: '/invoice-edit',
+      name: 'invoice-edit',
+      component: InvoiceEdit,
     }
 ,
     {

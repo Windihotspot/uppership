@@ -36,6 +36,11 @@
       </div>
     </div>
 
+    <div class="flex justify-between gap-4">
+        <v-btn color="blue" class="mx-2 btn p-2" variant="text"> Invoice </v-btn>
+        <v-btn color="blue" class="mx-2 btn p-2" variant="text"> Customs </v-btn>
+    </div>
+
     <div class="bg-white p-6 mt-4 rounded shadow-lg h-[250px]">
     
       <p
@@ -292,7 +297,7 @@ const invoice = ref({
     phone: props.events[0]?.receiver_number || '[Phone Number]'
   },
   items: [
-    { description: 'Customs Processing Fee', quantity: 1, unitCost: 100.0 },
+    // { description: 'Customs Processing Fee', quantity: 1, unitCost: 100.0 },
     { description: 'Handling and Delivery Fee', quantity: 1, unitCost: 45.0 },
     { description: 'Import Duty & Taxes', quantity: 1, unitCost: 5.0 }
   ],
