@@ -45,19 +45,19 @@ const router = createRouter({
       name: 'quote',
       component: GetQuote
     },
-    
+
     {
       path: '/shipment',
       name: 'shipment',
       component: ShipmentPage
     },
-    
+
     {
       path: '/legal-notice',
       name: 'legal-notice',
       component: LegalNotice
     },
-    
+
     {
       path: '/fraud-awareness',
       name: 'fraud-awareness',
@@ -68,7 +68,7 @@ const router = createRouter({
       name: 'terms-of-use',
       component: TermsOfUse
     },
-    
+
     {
       path: '/privacy',
       name: 'privacy',
@@ -82,14 +82,13 @@ const router = createRouter({
     {
       path: '/invoice-generate',
       name: 'invoice-generate',
-      component: InvoiceGenerator,
+      component: InvoiceGenerator
     },
     {
       path: '/invoice-edit',
       name: 'invoice-edit',
-      component: InvoiceEdit,
-    }
-,
+      component: InvoiceEdit
+    },
     {
       path: '/about',
       name: 'about',
@@ -102,10 +101,8 @@ const router = createRouter({
       name: 'AddTrack',
       component: AddTrack,
       props: true
-    },
-    
-  ],
-
+    }
+  ]
 })
 
 export default router
